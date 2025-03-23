@@ -481,6 +481,9 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+
+        // Define auth variable
+        const auth = firebase.auth();
     </script>
 
     <!-- Main JavaScript -->
@@ -556,10 +559,10 @@
                     ? firebase.auth.Auth.Persistence.LOCAL
                     : firebase.auth.Auth.Persistence.SESSION;
 
-                await firebase.auth().setPersistence(persistence);
+                await auth.setPersistence(persistence);
 
                 // Sign in with email and password
-                const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
                 // Redirect to dashboard
@@ -593,10 +596,10 @@
                             ? firebase.auth.Auth.Persistence.LOCAL
                             : firebase.auth.Auth.Persistence.SESSION;
 
-                        await firebase.auth().setPersistence(persistence);
+                        await auth.setPersistence(persistence);
 
                         // Sign in with popup
-                        const result = await firebase.auth().signInWithPopup(authProvider);
+                        const result = await auth.signInWithPopup(authProvider);
 
                         // Redirect to dashboard
                         window.location.href = 'dashboard.html';

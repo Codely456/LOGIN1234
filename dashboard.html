@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAI Assistant | Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Futuristic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        },
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81'
+                        },
+                        accent: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        futuristic: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .dark {
+            color-scheme: dark;
+        }
+
+        .dark body {
+            background-color: #0a0f1d;
+            color: #f8fafc;
+        }
+
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
+            --tw-gradient-from: #4f46e5;
+            --tw-gradient-to: #f97316;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-dark-900 min-h-screen">
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-white dark:bg-dark-900 z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="w-16 h-16 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Header/Navigation -->
+    <header class="bg-white dark:bg-dark-800 shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <span class="text-2xl font-bold text-primary-600 dark:text-primary-400 font-display">EduAI</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-10">
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium">Dashboard</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium">My Lessons</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium">Resources</a>
+                    <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 font-medium">Help</a>
+                </nav>
+
+                <!-- Right side buttons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark mode toggle -->
+                    <button id="darkModeToggle" class="p-1 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700 focus:outline-none">
+                        <svg id="darkModeIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg id="lightModeIcon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </button>
+
+                    <!-- User menu -->
+                    <div class="relative" id="userMenuContainer">
+                        <button id="userMenuButton" class="flex items-center space-x-2 focus:outline-none">
+                            <div id="userAvatar" class="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center text-white">
+                                <span id="userInitials">?</span>
+                            </div>
+                            <span id="userName" class="text-sm font-medium text-gray-700 dark:text-gray-200 hidden sm:block">User</span>
+                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- User dropdown menu -->
+                        <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-dark-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-dark-700">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">Your Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">Settings</a>
+                            <div class="border-t border-gray-200 dark:border-dark-700"></div>
+                            <button id="logoutButton" class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <button id="mobileMenuButton" class="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden hidden pb-3">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">Dashboard</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">My Lessons</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">Resources</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700">Help</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Banner -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Welcome to your Dashboard, <span id="welcomeUserName">User</span>!</h1>
+                    <p class="text-gray-600 dark:text-gray-300">Here's an overview of your educational journey.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <button class="bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Create New Lesson
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Recent Activity -->
+            <div class="col-span-2">
+                <div class="bg-white dark:bg-dark-800 rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-600 dark:text-gray-300">You haven't created any lessons yet. Get started by creating your first lesson!</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-dark-800 rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors">
+                            <div class="flex-shrink-0 bg-primary-100 dark:bg-primary-900 p-3 rounded-md">
+                                <svg class="h-6 w-6 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">Create Lesson Plan</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Generate a new lesson plan with AI</p>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors">
+                            <div class="flex-shrink-0 bg-accent-100 dark:bg-accent-900 p-3 rounded-md">
+                                <svg class="h-6 w-6 text-accent-600 dark:text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">Create Assessment</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Generate quizzes and tests</p>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors">
+                            <div class="flex-shrink-0 bg-green-100 dark:bg-green-900 p-3 rounded-md">
+                                <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">Resource Library</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Browse educational resources</p>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-dark-700 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 transition-colors">
+                            <div class="flex-shrink-0 bg-purple-100 dark:bg-purple-900 p-3 rounded-md">
+                                <svg class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">Feedback Assistant</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Generate student feedback</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="col-span-1">
+                <!-- Profile Card -->
+                <div class="bg-white dark:bg-dark-800 rounded-lg shadow-md p-6 mb-6">
+                    <div class="flex flex-col items-center">
+                        <div id="profileAvatar" class="h-20 w-20 rounded-full bg-primary-500 flex items-center justify-center text-white text-2xl mb-4">
+                            <span id="profileInitials">?</span>
+                        </div>
+                        <h3 id="profileName" class="text-lg font-medium text-gray-900 dark:text-white">User Name</h3>
+                        <p id="profileEmail" class="text-sm text-gray-500 dark:text-gray-400">user@example.com</p>
+                        <p id="accountType" class="mt-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
+                            Teacher
+                        </p>
+                        <button class="mt-4 text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300">
+                            Edit Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Usage Stats -->
+                <div class="bg-white dark:bg-dark-800 rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Usage Stats</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Lessons Created</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">0/10</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-dark-600 rounded-full h-2">
+                                <div class="bg-primary-600 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Assessments</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">0/20</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-dark-600 rounded-full h-2">
+                                <div class="bg-accent-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">AI Credits</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">100/100</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-dark-600 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-dark-800 shadow-md mt-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">&copy; 2023 EduAI Assistant. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        <span class="sr-only">Privacy Policy</span>
+                        Privacy Policy
+                    </a>
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        <span class="sr-only">Terms of Service</span>
+                        Terms of Service
+                    </a>
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        <span class="sr-only">Contact</span>
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Configuration -->
+    <script>
+        // Initialize Firebase with your config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbTVfF8MrMsF2eeZYG4WQnI9sh3NmmEME",
+            authDomain: "eduai-assistant.firebaseapp.com",
+            projectId: "eduai-assistant",
+            storageBucket: "eduai-assistant.firebasestorage.app",
+            messagingSenderId: "234970951094",
+            appId: "1:234970951094:web:529f578aaab09f9a95e517",
+            measurementId: "G-BB2B8L2GMP"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM Elements
+        const preloader = document.getElementById('preloader');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const lightModeIcon = document.getElementById('lightModeIcon');
+        const userMenuButton = document.getElementById('userMenuButton');
+        const userMenu = document.getElementById('userMenu');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const logoutButton = document.getElementById('logoutButton');
+        const userAvatar = document.getElementById('userAvatar');
+        const userInitials = document.getElementById('userInitials');
+        const userName = document.getElementById('userName');
+        const welcomeUserName = document.getElementById('welcomeUserName');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileInitials = document.getElementById('profileInitials');
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        const accountType = document.getElementById('accountType');
+
+        // Check if user is logged in
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // User is signed in
+                try {
+                    // Get user data from Firestore
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    const userData = userDoc.data();
+                    
+                    // Update UI with user information
+                    const displayName = userData?.fullName || user.displayName || 'User';
+                    const email = user.email || '';
+                    const userType = userData?.accountType || 'Student';
+                    
+                    // Set user name in UI
+                    userName.textContent = displayName;
+                    welcomeUserName.textContent = displayName;
+                    profileName.textContent = displayName;
+                    profileEmail.textContent = email;
+                    accountType.textContent = userType.charAt(0).toUpperCase() + userType.slice(1);
+                    
+                    // Set user initials for avatar
+                    const initials = displayName
+                        .split(' ')
+                        .map(name => name.charAt(0))
+                        .join('')
+                        .toUpperCase()
+                        .substring(0, 2);
+                    
+                    userInitials.textContent = initials;
+                    profileInitials.textContent = initials;
+                    
+                    // Check if user is new (from URL parameter)
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const isNewUser = urlParams.get('newUser') === 'true';
+                    
+                    if (isNewUser) {
+                        // You could show a welcome modal or onboarding tips here
+                        alert('Welcome to EduAI Assistant! Complete your profile to get started.');
+                        // Remove the query parameter
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            } else {
+                // User is signed out, redirect to login page
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Logout functionality
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Error signing out:", error);
+                alert("Error signing out. Please try again.");
+            }
+        });
+
+        // Dark mode toggle
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            // Toggle icons
+            darkModeIcon.classList.toggle('hidden');
+            lightModeIcon.classList.toggle('hidden');
+        });
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (localStorage.getItem('darkMode') === null && 
+             window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkModeIcon.classList.add('hidden');
+            lightModeIcon.classList.remove('hidden');
+        }
+
+        // User menu toggle
+        userMenuButton.addEventListener('click', () => {
+            userMenu.classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Hide preloader when page is loaded
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 500);
+        });
+
+        // Accessibility - keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                userMenu.classList.add('hidden');
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

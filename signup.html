@@ -704,6 +704,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
     </script>
 
     <!-- Main JavaScript -->
@@ -949,8 +950,14 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                // Redirect to dashboard
-                window.location.href = 'dashboard.html';
+                // Sign out the user after account creation
+                await auth.signOut();
+
+                // Show success message
+                alert('Account created successfully! Please log in with your credentials.');
+
+                // Redirect to login page
+                window.location.href = 'login.html';
             } catch (error) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
@@ -1005,16 +1012,23 @@
                     // Save user data to Firestore
                     await db.collection('users').doc(user.uid).set(userData);
 
-                    // Redirect to profile completion page
-                    window.location.href = 'dashboard.html?newUser=true';
-                } else {
-                    // Update last login time
-                    await db.collection('users').doc(user.uid).update({
-                        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                    // Sign out the user after account creation
+                    await auth.signOut();
 
-                    // Redirect to dashboard
-                    window.location.href = 'dashboard.html';
+                    // Show success message
+                    alert('Account created successfully! Please log in with your credentials.');
+
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                } else {
+                    // User already exists, sign them out
+                    await auth.signOut();
+
+                    // Show message
+                    alert('An account with this email already exists. Please log in.');
+
+                    // Redirect to login page
+                    window.location.href = 'login.html';
                 }
             } catch (error) {
                 console.error("Social sign-up error:", error);
