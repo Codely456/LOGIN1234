@@ -1,0 +1,10 @@
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCbTVfF8MrMsF2eeZYG4WQnI9sh3NmmEME",
+  authDomain: "eduai-assistant.firebaseapp.com",
+  projectId: "eduai-assistant",
+  storageBucket: "eduai-assistant.firebasestorage.app",
+  messagingSenderId: "234970951094",
+  appId: "1:234970951094:web:529f578aaab09f9a95e517",
+  measurementId: "G-BB2B8L2GMP"
+};

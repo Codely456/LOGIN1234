@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600px" height="400px" viewBox="0 0 600 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>EduAI Assistant Illustration</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#6366F1" offset="0%"></stop>
+            <stop stop-color="#F97316" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#E0E7FF" offset="0%"></stop>
+            <stop stop-color="#A5B4FC" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#FFF7ED" offset="0%"></stop>
+            <stop stop-color="#FDBA74" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="EduAI-Illustration" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Background Elements -->
+        <circle id="Background-Circle-1" fill="#EEF2FF" cx="300" cy="200" r="180"></circle>
+        <circle id="Background-Circle-2" fill="#E0E7FF" cx="300" cy="200" r="150"></circle>
+        
+        <!-- Document Stack -->
+        <g id="Document-Stack" transform="translate(150, 100)">
+            <rect id="Document-3" fill="#E0E7FF" x="0" y="20" width="180" height="220" rx="8"></rect>
+            <rect id="Document-2" fill="#C7D2FE" x="10" y="10" width="180" height="220" rx="8"></rect>
+            <rect id="Document-1" fill="#FFFFFF" x="20" y="0" width="180" height="220" rx="8"></rect>
+            
+            <!-- Document Content -->
+            <rect id="Header" fill="#EEF2FF" x="40" y="20" width="140" height="20" rx="4"></rect>
+            <rect id="Line-1" fill="#F3F4F6" x="40" y="50" width="140" height="10" rx="2"></rect>
+            <rect id="Line-2" fill="#F3F4F6" x="40" y="70" width="140" height="10" rx="2"></rect>
+            <rect id="Line-3" fill="#F3F4F6" x="40" y="90" width="140" height="10" rx="2"></rect>
+            <rect id="Line-4" fill="#F3F4F6" x="40" y="110" width="100" height="10" rx="2"></rect>
+            
+            <!-- AI Feedback -->
+            <rect id="Feedback-Box" fill="#EEF2FF" x="40" y="140" width="140" height="60" rx="6"></rect>
+            <rect id="Feedback-Line-1" fill="#A5B4FC" x="50" y="150" width="120" height="8" rx="2"></rect>
+            <rect id="Feedback-Line-2" fill="#A5B4FC" x="50" y="165" width="120" height="8" rx="2"></rect>
+            <rect id="Feedback-Line-3" fill="#A5B4FC" x="50" y="180" width="80" height="8" rx="2"></rect>
+        </g>
+        
+        <!-- AI Robot -->
+        <g id="AI-Robot" transform="translate(350, 120)">
+            <!-- Robot Head -->
+            <rect id="Robot-Head" fill="url(#linearGradient-2)" x="0" y="0" width="100" height="120" rx="20"></rect>
+            <rect id="Robot-Face" fill="#FFFFFF" x="10" y="20" width="80" height="90" rx="12"></rect>
+            
+            <!-- Robot Eyes -->
+            <circle id="Eye-Left" fill="#6366F1" cx="35" cy="50" r="10"></circle>
+            <circle id="Eye-Right" fill="#6366F1" cx="65" cy="50" r="10"></circle>
+            <circle id="Eye-Left-Highlight" fill="#FFFFFF" cx="32" cy="47" r="3"></circle>
+            <circle id="Eye-Right-Highlight" fill="#FFFFFF" cx="62" cy="47" r="3"></circle>
+            
+            <!-- Robot Mouth -->
+            <rect id="Mouth" fill="#6366F1" x="30" y="80" width="40" height="8" rx="4"></rect>
+            
+            <!-- Robot Antenna -->
+            <rect id="Antenna-Base" fill="#6366F1" x="45" y="-10" width="10" height="10" rx="2"></rect>
+            <circle id="Antenna-Top" fill="#F97316" cx="50" cy="-20" r="8"></circle>
+        </g>
+        
+        <!-- Floating Elements -->
+        <circle id="Float-Element-1" fill="#F97316" cx="150" cy="80" r="15" opacity="0.7"></circle>
+        <circle id="Float-Element-2" fill="#6366F1" cx="450" cy="100" r="12" opacity="0.7"></circle>
+        <circle id="Float-Element-3" fill="#6366F1" cx="400" cy="300" r="20" opacity="0.7"></circle>
+        
+        <!-- Grade Elements -->
+        <g id="Grade-A-Plus" transform="translate(100, 50)">
+            <circle id="Grade-Circle" fill="url(#linearGradient-3)" cx="25" cy="25" r="25"></circle>
+            <text font-family="Arial-BoldMT, Arial" font-size="24" font-weight="bold" fill="#C2410C">
+                <tspan x="12" y="33">A+</tspan>
+            </text>
+        </g>
+        
+        <!-- Checkmark -->
+        <g id="Checkmark" transform="translate(450, 220)">
+            <circle id="Checkmark-Circle" fill="#EEF2FF" cx="25" cy="25" r="25"></circle>
+            <path d="M20,25 L30,35 L45,15" id="Checkmark-Path" stroke="#6366F1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+        
+        <!-- Connection Lines -->
+        <path d="M300,200 C350,180 380,160 400,120" id="Connection-1" stroke="#A5B4FC" stroke-width="2" stroke-dasharray="5,5"></path>
+        <path d="M300,200 C250,220 200,240 150,220" id="Connection-2" stroke="#A5B4FC" stroke-width="2" stroke-dasharray="5,5"></path>
+        <path d="M300,200 C350,220 400,240 450,220" id="Connection-3" stroke="#A5B4FC" stroke-width="2" stroke-dasharray="5,5"></path>
+    </g>
+</svg>

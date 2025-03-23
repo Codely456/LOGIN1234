@@ -1,0 +1,2810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAI Assistant | Transform Teaching with AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Futuristic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- Three.js for 3D elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <!-- Lottie for lightweight animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        },
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81'
+                        },
+                        accent: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        futuristic: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                        'marquee2': 'marquee2 25s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' }
+                        },
+                        marquee2: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(0%)' }
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'noise': "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmJTFzIWiitbnzR794USKBUaT0NTEsVjZqLaFVqJoPN9ODG70IPbfBHKK+/q/AWR0tJzYHRULOa4MP+W/HfGadZUbfw177G7j/OGbIs8TahLyynl4X4RinF793Oz+BU0saXtUHrVBFT/DnA3ctNPoGbs4hRIjTok8i+algT1lTHi4SxFvONKNrgQFAq2/gFnWMXgwffgYMJpiKYkmW3tTg3ZQ9Jq+f8XN+A5eeUKHWvJWJ2sgJ1Sop+wwhqFVijqWaJhwtD8MNlSBeWNNWTa5Z5kPZw5+LbVT99wqTdx29lMUH4OIG/D86ruKEauBjvH5xy6um/Sfj7ei6UUVk4AIl3MyD4MSSTOFgSwsH/QJWaQ5as7ZcmgBZkzjjU1UrQ74ci1gWBCSGHtuV1H2mhSnO3Wp/3fEV5a+4wz//6qy8JxjZsmxxy5+4w9CDNJY09T072iKG0EnOS0arEYgXqYnXcYHwjTtUNAcMelOd4xpkoqiTYICWFq0JSiPfPDQdnt+4/wuqcXY47QILbgAAAABJRU5ErkJggg==')"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom styles -->
+    <style>
+        /* CSS Variables for dynamic theming */
+        :root {
+            --primary-color: #6366f1;
+            --accent-color: #f97316;
+        }
+
+        /* Custom CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Dark mode styles */
+        .dark {
+            color-scheme: dark;
+        }
+
+        .dark body {
+            background-color: #0a0f1d; /* Darker background for better contrast */
+            color: #f8fafc; /* Brighter text for better readability */
+        }
+
+        /* Improved dark mode contrast */
+        .dark .bg-white {
+            background-color: #1e293b !important; /* Darker card backgrounds */
+        }
+
+        .dark .bg-gray-50 {
+            background-color: #111827 !important; /* Darker section backgrounds */
+        }
+
+        .dark .bg-gray-100 {
+            background-color: #1f2937 !important;
+        }
+
+        .dark .border-gray-200 {
+            border-color: #334155 !important; /* Darker borders */
+        }
+
+        .dark .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2) !important; /* Enhanced shadows */
+        }
+
+        /* Ensure text is always visible regardless of background */
+        .text-white {
+            color: #ffffff !important;
+        }
+
+        .dark .text-gray-800,
+        .dark .text-gray-900,
+        .dark .text-black {
+            color: #f1f5f9 !important;
+        }
+
+        .dark .text-gray-600,
+        .dark .text-gray-700 {
+            color: #cbd5e1 !important;
+        }
+
+        /* Futuristic Gradients */
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
+            --tw-gradient-from: #4f46e5;
+            --tw-gradient-to: #f97316;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .gradient-text-future {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6, #d946ef);
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            /* Neon glow effect */
+            text-shadow:
+                0 0 5px rgba(59, 130, 246, 0.3),
+                0 0 10px rgba(139, 92, 246, 0.2),
+                0 0 15px rgba(217, 70, 239, 0.1);
+            filter: brightness(1.1);
+            letter-spacing: 0.5px;
+        }
+
+        .gradient-text-cyber {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #06b6d4, #3b82f6, #8b5cf6);
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        .gradient-bg-future {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #d946ef);
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            position: relative;
+        }
+
+        /* Add a subtle overlay to improve text contrast */
+        .gradient-bg-future::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .gradient-border {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #d946ef);
+            z-index: -1;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            border-radius: 0.6rem;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .noise-bg {
+            position: relative;
+        }
+
+        .noise-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmJTFzIWiitbnzR794USKBUaT0NTEsVjZqLaFVqJoPN9ODG70IPbfBHKK+/q/AWR0tJzYHRULOa4MP+W/HfGadZUbfw177G7j/OGbIs8TahLyynl4X4RinF793Oz+BU0saXtUHrVBFT/DnA3ctNPoGbs4hRIjTok8i+algT1lTHi4SxFvONKNrgQFAq2/gFnWMXgwffgYMJpiKYkmW3tTg3ZQ9Jq+f8XN+A5eeUKHWvJWJ2sgJ1Sop+wwhqFVijqWaJhwtD8MNlSBeWNNWTa5Z5kPZw5+LbVT99wqTdx29lMUH4OIG/D86ruKEauBjvH5xy6um/Sfj7ei6UUVk4AIl3MyD4MSSTOFgSwsH/QJWaQ5as7ZcmgBZkzjjU1UrQ74ci1gWBCSGHtuV1H2mhSnO3Wp/3fEV5a+4wz//6qy8JxjZsmxxy5+4w9CDNJY09T072iKG0EnOS0arEYgXqYnXcYHwjTtUNAcMelOd4xpkoqiTYICWFq0JSiPfPDQdnt+4/wuqcXY47QILbgAAAABJRU5ErkJggg==');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .marquee {
+            display: flex;
+            width: 200%;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 25s linear infinite;
+            width: 100%;
+        }
+
+        .marquee-content-2 {
+            display: flex;
+            animation: marquee2 25s linear infinite;
+            width: 100%;
+        }
+
+        /* Lottie Animation Styles */
+        #lottie-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        #lottie-container svg {
+            width: 100% !important;
+            height: auto !important;
+            max-width: 500px;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+            transition: filter 0.3s ease;
+        }
+
+        #lottie-container:hover svg {
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+        }
+
+        .dark-mode-animation svg {
+            filter: drop-shadow(0 10px 15px rgba(99, 102, 241, 0.2)) !important;
+        }
+
+        .dark-mode-animation:hover svg {
+            filter: drop-shadow(0 15px 25px rgba(99, 102, 241, 0.3)) !important;
+        }
+
+        /* Enhanced animations */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes marquee2 {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInStagger {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Parallax effect */
+        .parallax {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: translateZ(-1px) scale(2);
+        }
+
+        /* Micro-interactions */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn-ripple:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+
+        /* Enhanced CTA button animations */
+        .cta-button {
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #d946ef);
+            z-index: -1;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            border-radius: 0.6rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+
+        /* Text shadow for better readability */
+        .text-shadow-sm {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .text-shadow-md {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Card flip effect */
+        .flip-card {
+            perspective: 1000px;
+            height: 300px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Neumorphism Effects */
+        .neumorph {
+            border-radius: 1rem;
+            background: #f0f4f8;
+            box-shadow:
+                8px 8px 16px rgba(174, 174, 192, 0.4),
+                -8px -8px 16px rgba(255, 255, 255, 0.8);
+        }
+
+        .neumorph-inset {
+            border-radius: 1rem;
+            background: #f0f4f8;
+            box-shadow:
+                inset 8px 8px 16px rgba(174, 174, 192, 0.4),
+                inset -8px -8px 16px rgba(255, 255, 255, 0.8);
+        }
+
+        .neumorph-btn {
+            border-radius: 0.5rem;
+            background: #f0f4f8;
+            box-shadow:
+                5px 5px 10px rgba(174, 174, 192, 0.4),
+                -5px -5px 10px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .neumorph-btn:hover {
+            box-shadow:
+                3px 3px 6px rgba(174, 174, 192, 0.4),
+                -3px -3px 6px rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .neumorph-btn:active {
+            box-shadow:
+                inset 5px 5px 10px rgba(174, 174, 192, 0.4),
+                inset -5px -5px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Glassmorphism Effects */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-card {
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Enhanced floating cards effect */
+        .floating-card {
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow:
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -4px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateZ(0);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .dark .floating-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 10px 15px -3px rgba(0, 0, 0, 0.2),
+                0 4px 6px -4px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px) translateZ(0);
+            box-shadow:
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 8px 10px -6px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+        }
+
+        .floating-card.delay-1 {
+            animation-delay: 1s;
+        }
+
+        .floating-card.delay-2 {
+            animation-delay: 2s;
+        }
+
+        .floating-card.delay-3 {
+            animation-delay: 3s;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Custom cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(99, 102, 241, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+
+        .cursor-expanded {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Video modal */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Enhanced Mobile menu - Full screen with better transitions */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: white;
+            z-index: 40;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        .dark .mobile-menu {
+            background-color: #1e293b; /* Dark background for dark mode */
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile menu animation for content */
+        .mobile-menu .container {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transition-delay: 0.1s;
+        }
+
+        .mobile-menu.active .container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Hamburger menu animation */
+        .hamburger-line:nth-child(1) {
+            top: 0;
+        }
+
+        .hamburger-line:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hamburger-line:nth-child(3) {
+            bottom: 0;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        /* Page transition effect */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #6366F1;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .page-transition.active {
+            transform: translateY(0);
+        }
+
+        /* Skip to content for accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-950 text-gray-900 dark:text-gray-100 overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor hidden md:block"></div>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="flex flex-col items-center">
+            <svg class="w-16 h-16 mb-4" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" stroke="#6366F1" stroke-width="8" fill="none" stroke-dasharray="251" stroke-dashoffset="251">
+                    <animate attributeName="stroke-dashoffset" from="251" to="0" dur="2s" repeatCount="indefinite" />
+                </circle>
+            </svg>
+            <div class="text-2xl font-bold font-display">
+                EduAI<span class="gradient-text-future">Assistant</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Personalization Panel -->
+    <div id="personalization-panel" class="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-300 translate-x-full">
+        <button id="personalization-toggle" class="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2 bg-primary-600 dark:bg-primary-700 text-white p-3 rounded-l-lg shadow-lg">
+            <i class="fas fa-sliders-h"></i>
+        </button>
+        <div class="w-64 bg-white dark:bg-dark-800 p-4 rounded-l-lg shadow-xl glass-dark">
+            <h3 class="text-lg font-bold mb-4 font-futuristic gradient-text-cyber">AI Personalization</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1 dark:text-gray-300">Education Level</label>
+                    <select id="education-level" class="w-full p-2 rounded border dark:bg-dark-700 dark:border-dark-600 dark:text-white">
+                        <option value="k12">K-12</option>
+                        <option value="higher-ed">Higher Education</option>
+                        <option value="corporate">Corporate Training</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 dark:text-gray-300">Subject Focus</label>
+                    <select id="subject-focus" class="w-full p-2 rounded border dark:bg-dark-700 dark:border-dark-600 dark:text-white">
+                        <option value="stem">STEM</option>
+                        <option value="humanities">Humanities</option>
+                        <option value="languages">Languages</option>
+                        <option value="arts">Arts</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 dark:text-gray-300">UI Style</label>
+                    <select id="ui-style" class="w-full p-2 rounded border dark:bg-dark-700 dark:border-dark-600 dark:text-white">
+                        <option value="modern">Modern</option>
+                        <option value="futuristic">Futuristic</option>
+                        <option value="minimal">Minimal</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 dark:text-gray-300">Color Theme</label>
+                    <div class="flex space-x-2">
+                        <button data-color="blue" class="w-6 h-6 rounded-full bg-blue-500 border-2 border-white dark:border-dark-700"></button>
+                        <button data-color="purple" class="w-6 h-6 rounded-full bg-purple-500 border-2 border-white dark:border-dark-700"></button>
+                        <button data-color="green" class="w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-dark-700"></button>
+                        <button data-color="orange" class="w-6 h-6 rounded-full bg-orange-500 border-2 border-white dark:border-dark-700"></button>
+                    </div>
+                </div>
+                <button id="apply-personalization" class="w-full py-2 bg-primary-600 text-white rounded font-medium hover:bg-primary-700 transition-colors">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Noise Overlay -->
+    <div class="fixed inset-0 bg-noise opacity-[0.03] pointer-events-none z-10"></div>
+
+    <!-- Page Transition Effect -->
+    <div class="page-transition"></div>
+
+    <!-- Mobile Menu - Full-screen with gesture support -->
+    <div class="mobile-menu lg:hidden">
+        <div class="container mx-auto px-6 py-8 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center">
+                    <svg class="w-10 h-10 mr-3" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="url(#mobile-logo-gradient)" />
+                        <path d="M15,15 L25,15 L25,25 L15,25 Z" fill="white" />
+                        <defs>
+                            <linearGradient id="mobile-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#6366F1" />
+                                <stop offset="100%" stop-color="#F97316" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">EduAI<span class="font-normal text-primary-600 dark:text-primary-400">Assistant</span></h1>
+                </div>
+                <div class="flex items-center">
+                    <button class="mobile-back-btn text-2xl p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-full transition-all text-gray-800 dark:text-gray-200 mr-2">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="mobile-close-btn text-2xl p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-full transition-all text-gray-800 dark:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Swipe indicator -->
+            <div class="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
+                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-2"></div>
+                Swipe down to close
+            </div>
+
+            <nav class="flex-1">
+                <ul class="space-y-5 text-xl">
+                    <li>
+                        <a href="#features" class="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-800 rounded-lg transition-all duration-300 font-medium">
+                            <i class="fas fa-star mr-3 text-primary-500 dark:text-primary-400 w-6 text-center"></i>
+                            <span>Features</span>
+                            <i class="fas fa-chevron-right ml-auto text-gray-400 text-sm"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#how-it-works" class="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-800 rounded-lg transition-all duration-300 font-medium">
+                            <i class="fas fa-cogs mr-3 text-primary-500 dark:text-primary-400 w-6 text-center"></i>
+                            <span>Process</span>
+                            <i class="fas fa-chevron-right ml-auto text-gray-400 text-sm"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#testimonials" class="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-800 rounded-lg transition-all duration-300 font-medium">
+                            <i class="fas fa-quote-right mr-3 text-primary-500 dark:text-primary-400 w-6 text-center"></i>
+                            <span>Testimonials</span>
+                            <i class="fas fa-chevron-right ml-auto text-gray-400 text-sm"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="flex items-center py-3 px-4 text-gray-800 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-800 rounded-lg transition-all duration-300 font-medium">
+                            <i class="fas fa-envelope mr-3 text-primary-500 dark:text-primary-400 w-6 text-center"></i>
+                            <span>Contact</span>
+                            <i class="fas fa-chevron-right ml-auto text-gray-400 text-sm"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="mt-auto space-y-4 pt-6 border-t border-gray-200 dark:border-dark-700">
+                <!-- Dark Mode Toggle for Mobile -->
+                <div class="flex justify-between items-center p-3 rounded-lg bg-gray-50 dark:bg-dark-800">
+                    <span class="text-gray-800 dark:text-gray-200 font-medium">Dark Mode</span>
+                    <button id="mobile-theme-toggle" class="p-2 rounded-full glass dark:glass-dark transition-all duration-300 hover:shadow-md relative overflow-hidden group">
+                        <i class="fas fa-moon text-dark-800 dark:hidden"></i>
+                        <i class="fas fa-sun text-yellow-300 hidden dark:block"></i>
+                        <span class="absolute inset-0 bg-primary-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"></span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="login.html" class="py-3 text-center border-2 border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg font-medium hover:bg-primary-50 dark:hover:bg-dark-800 transition-all duration-300 hover:shadow-md">Log In</a>
+                    <a href="signup.html" class="py-3 text-center bg-accent-500 text-white rounded-lg font-bold hover:bg-accent-600 transition-all duration-300 hover:shadow-lg text-shadow-sm">Sign Up</a>
+                </div>
+
+                <a href="signup.html" class="block w-full py-4 text-center bg-gradient-to-r from-primary-600 to-accent-500 text-white rounded-lg font-bold hover:from-primary-700 hover:to-accent-600 transition-all duration-300 hover:shadow-lg text-shadow-sm">
+                    Try EduAI Now <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header with Parallax Effect -->
+    <header class="relative min-h-screen overflow-hidden bg-gradient-to-b from-white to-gray-50 parallax">
+        <!-- Video Background - Enhanced with improved overlay for better text legibility -->
+        <div class="absolute inset-0 z-0">
+            <video autoplay muted loop playsinline id="background-video" class="object-cover w-full h-full opacity-20" preload="none" poster="images/video-poster.jpg">
+                <source src="videos/background-loop.mp4" type="video/mp4">
+            </video>
+            <!-- Enhanced contrast overlay with multiple layers for depth -->
+            <div class="absolute inset-0 bg-gradient-to-b from-white via-white to-gray-100 opacity-85 dark:from-dark-900 dark:via-dark-900 dark:to-dark-950 dark:opacity-90"></div>
+            <!-- Additional subtle pattern overlay -->
+            <div class="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay"></div>
+        </div>
+
+        <!-- Navbar - Enhanced with sticky behavior and better contrast -->
+        <nav class="fixed top-0 left-0 w-full z-40 transition-all duration-300 py-4 backdrop-blur-sm bg-white/90 shadow-sm" id="navbar">
+            <div class="container mx-auto px-6 flex justify-between items-center">
+                <div class="flex items-center">
+                    <svg class="w-10 h-10 mr-3" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="url(#logo-gradient)" />
+                        <path d="M15,15 L25,15 L25,25 L15,25 Z" fill="white" />
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#6366F1" />
+                                <stop offset="100%" stop-color="#F97316" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <h1 class="text-2xl font-bold">EduAI<span class="font-normal text-primary-600">Assistant</span></h1>
+                </div>
+
+                <div class="hidden lg:flex items-center space-x-10">
+                    <a href="#features" class="text-gray-800 hover:text-primary-600 transition-colors relative nav-link font-medium">Features</a>
+                    <a href="#how-it-works" class="text-gray-800 hover:text-primary-600 transition-colors relative nav-link font-medium">Process</a>
+                    <a href="#testimonials" class="text-gray-800 hover:text-primary-600 transition-colors relative nav-link font-medium">Testimonials</a>
+                    <a href="#contact" class="text-gray-800 hover:text-primary-600 transition-colors relative nav-link font-medium">Contact</a>
+                </div>
+
+                <div class="hidden lg:flex items-center space-x-4">
+                    <!-- Dark Mode Toggle - Enhanced for better visibility -->
+                    <button id="theme-toggle" class="p-2 rounded-full glass dark:glass-dark transition-all duration-300 hover:shadow-md relative overflow-hidden group">
+                        <i class="fas fa-moon text-dark-800 dark:hidden"></i>
+                        <i class="fas fa-sun text-yellow-300 hidden dark:block"></i>
+                        <span class="absolute inset-0 bg-primary-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"></span>
+                    </button>
+                    <a href="login.html" class="px-5 py-2 border-2 border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg font-medium hover:bg-primary-50 dark:hover:bg-dark-800 transition-all duration-300 hover:shadow-md">Log In</a>
+                    <a href="signup.html" class="px-5 py-2 bg-accent-500 text-white rounded-lg font-bold hover:bg-accent-600 transition-all duration-300 hover:shadow-lg hover:scale-105 text-shadow-sm">Sign Up <i class="fas fa-arrow-right ml-2"></i></a>
+                </div>
+
+                <button class="lg:hidden mobile-menu-btn p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-all duration-300 relative z-50">
+                    <div class="hamburger-icon w-6 h-5 relative">
+                        <span class="hamburger-line absolute h-0.5 w-6 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300"></span>
+                        <span class="hamburger-line absolute h-0.5 w-6 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300"></span>
+                        <span class="hamburger-line absolute h-0.5 w-6 bg-gray-800 dark:bg-gray-200 rounded-full transition-all duration-300"></span>
+                    </div>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="container mx-auto px-6 pt-32 pb-20 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+                <div class="space-y-8 motion-safe:opacity-0" id="hero-content">
+                    <div class="inline-block px-4 py-1 glass dark:glass-dark rounded-full font-medium text-sm">
+                        <span class="gradient-text-cyber font-futuristic">20+ Years of Excellence</span>
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight font-display dark:text-white">
+                        <span class="block">Transform</span>
+                        <span class="block">Education With</span>
+                        <span class="gradient-text-future">AI-Powered Grading</span>
+                    </h1>
+
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-lg font-futuristic">
+                        An intelligent assistant that helps teachers provide faster, more consistent feedback
+                        while reducing workload by up to <span class="text-accent-600 dark:text-accent-400 font-bold">70%</span>.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="login.html" class="cta-button px-8 py-4 gradient-bg-future rounded-lg font-bold transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-xl relative overflow-hidden group">
+                            <span class="relative z-10 font-futuristic text-white text-shadow-sm">Try EduAI Now</span>
+                            <i class="fas fa-arrow-right ml-2 relative z-10 group-hover:translate-x-1 transition-transform duration-300 text-white"></i>
+                            <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        </a>
+                        <a href="#demo" class="px-8 py-4 flex items-center justify-center text-gray-800 dark:text-gray-200 hover:text-primary-600 transition-all duration-300 hover:scale-105 neumorph-btn dark:glass-dark group">
+                            <div class="w-12 h-12 glass dark:glass-dark rounded-full flex items-center justify-center shadow-lg mr-3 hover:shadow-xl transition-all group-hover:scale-110 duration-300">
+                                <i class="fas fa-play gradient-text-cyber group-hover:animate-pulse"></i>
+                            </div>
+                            <span class="font-futuristic">Watch Demo</span>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-8 pt-8">
+                        <div>
+                            <div class="text-3xl font-bold text-gray-900">10,000+</div>
+                            <div class="text-gray-600">Teachers</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-gray-900">500+</div>
+                            <div class="text-gray-600">Schools</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-gray-900">1M+</div>
+                            <div class="text-gray-600">Assignments</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative motion-safe:opacity-0" id="hero-image">
+                    <!-- Lottie Animation Container -->
+                    <div id="lottie-container" class="w-full h-full relative z-20"></div>
+
+                    <!-- 3D Canvas for Three.js as background effect -->
+                    <div id="3d-canvas" class="absolute inset-0 z-10 opacity-60"></div>
+
+                    <!-- Floating Elements with Parallax -->
+                    <div class="absolute w-full h-full">
+                        <div class="absolute top-1/4 left-1/4 w-8 h-8 glass dark:glass-dark rounded-full opacity-70 animate-float parallax-element" data-speed="0.05"></div>
+                        <div class="absolute bottom-1/4 left-1/5 w-6 h-6 glass dark:glass-dark rounded-full opacity-70 animate-float parallax-element" data-speed="-0.08" style="animation-delay: 1s"></div>
+                        <div class="absolute top-1/3 right-1/4 w-10 h-10 glass dark:glass-dark rounded-full opacity-70 animate-float parallax-element" data-speed="0.1" style="animation-delay: 2s"></div>
+                        <div class="absolute bottom-1/3 right-1/5 w-12 h-12 glass dark:glass-dark rounded-full opacity-50 animate-float parallax-element" data-speed="-0.06" style="animation-delay: 1.5s"></div>
+                    </div>
+
+                    <!-- Main Illustration - With parallax, lazy loading and improved accessibility -->
+                    <div class="relative z-20 parallax-element" data-speed="0.02">
+                        <img src="images/hero-illustration.svg" alt="AI Teacher Assistant helping grade papers and provide feedback" class="w-full max-w-lg mx-auto hover-lift" loading="lazy">
+                    </div>
+
+                    <!-- Glow Effect with Parallax -->
+                    <div class="absolute inset-0 bg-gradient-radial from-primary-100 dark:from-primary-900 to-transparent opacity-70 animate-pulse-slow parallax-element" data-speed="-0.03"></div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator - Enhanced for accessibility -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-0" id="scroll-indicator">
+                <a href="#features" class="flex flex-col items-center group focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-full p-2" aria-label="Scroll down to features section" tabindex="0">
+                    <div class="w-8 h-14 border-2 border-gray-400 rounded-full flex justify-center mb-2 group-hover:border-primary-500 transition-colors">
+                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full mt-3 animate-bounce-slow group-hover:bg-primary-500 transition-colors"></div>
+                    </div>
+                    <div class="text-sm text-gray-600 font-medium group-hover:text-primary-600 transition-colors">Scroll to explore</div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Brands Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-10">
+                    <span class="text-xl text-gray-500">Trusted by leading institutions</span>
+                </div>
+
+                <div class="marquee-container">
+                    <div class="marquee">
+                        <div class="marquee-content">
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Harvard University</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Stanford</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">MIT</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Oxford</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Cambridge</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Berkeley</div>
+                        </div>
+                        <div class="marquee-content-2">
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Harvard University</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Stanford</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">MIT</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Oxford</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Cambridge</div>
+                            <div class="flex-shrink-0 px-8 text-2xl font-bold text-gray-300">Berkeley</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-24 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <div class="inline-block px-3 py-1 text-xs font-semibold text-primary-600 uppercase tracking-wider mb-4">Features</div>
+                    <h2 class="text-4xl font-bold mb-6">Powerful AI Tools for <span class="gradient-text">Modern Education</span></h2>
+                    <p class="text-xl text-gray-600">Our platform combines cutting-edge AI with intuitive design to transform the educational experience.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature Card 1 - With flip effect -->
+                    <div class="flip-card feature-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white rounded-xl shadow-lg p-8">
+                                <div class="w-14 h-14 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+                                    <i class="fas fa-robot text-2xl text-primary-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-4">AI-Powered Grading</h3>
+                                <p class="text-gray-600 mb-6">Automatically evaluate assignments with advanced AI that learns from teacher preferences.</p>
+                                <div class="text-primary-600 font-medium">Hover to learn more</div>
+                            </div>
+                            <div class="flip-card-back bg-primary-600 text-white rounded-xl shadow-lg p-8 flex flex-col justify-center">
+                                <h3 class="text-xl font-bold mb-4">How It Works</h3>
+                                <ul class="space-y-3 mb-6">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check mr-2 mt-1"></i>
+                                        <span>Analyzes student responses</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check mr-2 mt-1"></i>
+                                        <span>Provides detailed feedback</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check mr-2 mt-1"></i>
+                                        <span>Learns from teacher corrections</span>
+                                    </li>
+                                </ul>
+                                <div class="text-white font-medium">70% time saved on grading</div>
+                            </div>
+                        </div>
+                    </div>
+                        <a href="#" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+                            Learn more <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
+
+                    <!-- Feature Card 2 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl feature-card">
+                        <div class="w-14 h-14 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-comments text-2xl text-primary-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Detailed Feedback</h3>
+                        <p class="text-gray-600 mb-6">Provide students with comprehensive, personalized feedback that highlights strengths.</p>
+                        <a href="#" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+                            Learn more <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
+
+                    <!-- Feature Card 3 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl feature-card">
+                        <div class="w-14 h-14 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-clock text-2xl text-primary-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Time-Saving</h3>
+                        <p class="text-gray-600 mb-6">Reduce grading time by up to 70%, allowing teachers to focus on what matters most.</p>
+                        <a href="#" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+                            Learn more <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
+
+                    <!-- Feature Card 4 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl feature-card">
+                        <div class="w-14 h-14 bg-primary-100 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-chart-line text-2xl text-primary-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Progress Tracking</h3>
+                        <p class="text-gray-600 mb-6">Monitor student performance and identify areas for improvement with detailed analytics.</p>
+                        <a href="#" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+                            Learn more <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-20 bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="grid md:grid-cols-2 items-center">
+                        <div class="p-10 md:p-16">
+                            <h3 class="text-3xl font-bold mb-6">Experience the <span class="gradient-text">Future of Grading</span></h3>
+                            <p class="text-gray-600 mb-8">Our AI doesn't just grade—it understands context, provides constructive feedback, and helps students grow.</p>
+                            <ul class="space-y-4 mb-10">
+                                <li class="flex items-center">
+                                    <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-check text-sm text-primary-600"></i>
+                                    </div>
+                                    <span class="text-gray-700">Natural language processing</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-check text-sm text-primary-600"></i>
+                                    </div>
+                                    <span class="text-gray-700">Contextual understanding</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-check text-sm text-primary-600"></i>
+                                    </div>
+                                    <span class="text-gray-700">Personalized learning paths</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <div class="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-check text-sm text-primary-600"></i>
+                                    </div>
+                                    <span class="text-gray-700">Continuous improvement</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="px-6 py-3 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-900 transition-colors inline-block">Explore All Features</a>
+                        </div>
+                        <div class="relative p-10 md:p-0">
+                            <img src="images/hero-illustration.svg" alt="AI Features Showcase" class="w-full">
+
+                            <!-- Enhanced Floating Cards with Glassmorphism -->
+                            <div class="absolute top-1/4 -left-10 p-4 flex items-center feature-floating-card floating-card">
+                                <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-brain text-primary-600 dark:text-primary-400"></i>
+                                </div>
+                                <div class="font-medium font-futuristic">AI Analysis</div>
+                            </div>
+
+                            <div class="absolute bottom-1/4 -right-10 p-4 flex items-center feature-floating-card floating-card delay-1">
+                                <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-lightbulb text-primary-600 dark:text-primary-400"></i>
+                                </div>
+                                <div class="font-medium font-futuristic">Smart Insights</div>
+                            </div>
+
+                            <div class="absolute top-1/2 right-0 p-4 flex items-center feature-floating-card floating-card delay-2">
+                                <div class="w-10 h-10 bg-accent-100 dark:bg-accent-900 rounded-full flex items-center justify-center mr-3">
+                                    <i class="fas fa-chart-line text-accent-600 dark:text-accent-400"></i>
+                                </div>
+                                <div class="font-medium font-futuristic">Progress Tracking</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-24 bg-white noise-bg">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <div class="inline-block px-3 py-1 text-xs font-semibold text-primary-600 uppercase tracking-wider mb-4">Process</div>
+                    <h2 class="text-4xl font-bold mb-6">How <span class="gradient-text">EduAI Assistant</span> Works</h2>
+                    <p class="text-xl text-gray-600">A seamless four-step process that transforms the grading experience for teachers and students alike.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <!-- Step 1 -->
+                    <div class="process-step" id="process-step-1">
+                        <div class="grid md:grid-cols-5 gap-8 items-center mb-20">
+                            <div class="md:col-span-2 relative">
+                                <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center text-2xl font-bold absolute -top-10 -left-10 z-10">01</div>
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="images/hero-illustration.svg" alt="Upload Assignments" class="w-full">
+                                </div>
+                            </div>
+                            <div class="md:col-span-3">
+                                <h3 class="text-2xl font-bold mb-4">Upload Assignments</h3>
+                                <p class="text-gray-600">Students submit their work through a simple, intuitive interface that supports multiple file formats and integrates with popular LMS platforms.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="process-step" id="process-step-2">
+                        <div class="grid md:grid-cols-5 gap-8 items-center mb-20">
+                            <div class="md:col-span-3 md:order-1 order-2">
+                                <h3 class="text-2xl font-bold mb-4">AI Evaluation</h3>
+                                <p class="text-gray-600">Our sophisticated AI analyzes the submission using natural language processing and machine learning to generate detailed feedback and accurate grading.</p>
+                            </div>
+                            <div class="md:col-span-2 relative md:order-2 order-1">
+                                <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center text-2xl font-bold absolute -top-10 -right-10 z-10">02</div>
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="images/hero-illustration.svg" alt="AI Evaluation" class="w-full">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="process-step" id="process-step-3">
+                        <div class="grid md:grid-cols-5 gap-8 items-center mb-20">
+                            <div class="md:col-span-2 relative">
+                                <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center text-2xl font-bold absolute -top-10 -left-10 z-10">03</div>
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="images/hero-illustration.svg" alt="Teacher Review" class="w-full">
+                                </div>
+                            </div>
+                            <div class="md:col-span-3">
+                                <h3 class="text-2xl font-bold mb-4">Teacher Review</h3>
+                                <p class="text-gray-600">Teachers can review, edit, and approve the AI-generated feedback, maintaining full control while saving significant time on routine grading tasks.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="process-step" id="process-step-4">
+                        <div class="grid md:grid-cols-5 gap-8 items-center">
+                            <div class="md:col-span-3 md:order-1 order-2">
+                                <h3 class="text-2xl font-bold mb-4">Student Feedback</h3>
+                                <p class="text-gray-600">Students receive comprehensive feedback with specific suggestions for improvement, helping them understand their strengths and areas for growth.</p>
+                            </div>
+                            <div class="md:col-span-2 relative md:order-2 order-1">
+                                <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center text-2xl font-bold absolute -top-10 -right-10 z-10">04</div>
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                    <img src="images/hero-illustration.svg" alt="Student Feedback" class="w-full">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Video Section -->
+        <section id="demo" class="py-24 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <div class="inline-block px-3 py-1 text-xs font-semibold text-primary-600 uppercase tracking-wider mb-4">Demo</div>
+                    <h2 class="text-4xl font-bold mb-6">See <span class="gradient-text">EduAI</span> in Action</h2>
+                    <p class="text-xl text-gray-600">Watch how our platform transforms the grading process from start to finish.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative aspect-w-16 aspect-h-9 bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+                        <div class="absolute inset-0 flex items-center justify-center cursor-pointer video-play-btn">
+                            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-110">
+                                <i class="fas fa-play text-2xl text-primary-600 ml-1"></i>
+                            </div>
+                        </div>
+                        <img src="images/hero-illustration.svg" alt="Demo Video Thumbnail" class="w-full h-full object-cover opacity-60">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <div class="inline-block px-3 py-1 text-xs font-semibold text-primary-600 uppercase tracking-wider mb-4">Testimonials</div>
+                    <h2 class="text-4xl font-bold mb-6">What <span class="gradient-text">Educators</span> Say</h2>
+                    <p class="text-xl text-gray-600">Hear from teachers and administrators who have transformed their educational approach with EduAI.</p>
+                </div>
+
+                <div class="testimonials-slider relative">
+                    <div class="overflow-hidden">
+                        <div class="flex transition-transform duration-500 ease-in-out" id="testimonials-track">
+                            <!-- Testimonial 1 -->
+                            <div class="w-full flex-shrink-0 px-4">
+                                <div class="bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100">
+                                    <div class="text-primary-200 mb-6">
+                                        <i class="fas fa-quote-left text-4xl"></i>
+                                    </div>
+                                    <p class="text-gray-700 text-lg mb-8 italic">"This tool has revolutionized my grading process. I can provide better feedback to more students in less time, and the AI suggestions are remarkably insightful. It's like having a teaching assistant available 24/7."</p>
+                                    <div class="flex items-center">
+                                        <div class="w-14 h-14 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold mr-4">SJ</div>
+                                        <div>
+                                            <h4 class="font-bold">Professor Sarah Johnson</h4>
+                                            <p class="text-gray-600 text-sm">Computer Science Department, Stanford University</p>
+                                            <div class="flex mt-2 text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Testimonial 2 -->
+                            <div class="w-full flex-shrink-0 px-4">
+                                <div class="bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100">
+                                    <div class="text-primary-200 mb-6">
+                                        <i class="fas fa-quote-left text-4xl"></i>
+                                    </div>
+                                    <p class="text-gray-700 text-lg mb-8 italic">"My students love the detailed feedback they receive, and I love that I can spend more time on actual teaching instead of grading. The analytics help me identify common misconceptions across the class."</p>
+                                    <div class="flex items-center">
+                                        <div class="w-14 h-14 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold mr-4">MC</div>
+                                        <div>
+                                            <h4 class="font-bold">Dr. Michael Chen</h4>
+                                            <p class="text-gray-600 text-sm">Engineering Faculty, MIT</p>
+                                            <div class="flex mt-2 text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Testimonial 3 -->
+                            <div class="w-full flex-shrink-0 px-4">
+                                <div class="bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100">
+                                    <div class="text-primary-200 mb-6">
+                                        <i class="fas fa-quote-left text-4xl"></i>
+                                    </div>
+                                    <p class="text-gray-700 text-lg mb-8 italic">"As a department head, I've seen a significant improvement in teacher satisfaction and student performance since implementing EduAI. The time savings alone make it worth the investment."</p>
+                                    <div class="flex items-center">
+                                        <div class="w-14 h-14 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold mr-4">ER</div>
+                                        <div>
+                                            <h4 class="font-bold">Dr. Emily Rodriguez</h4>
+                                            <p class="text-gray-600 text-sm">Department Chair, Harvard University</p>
+                                            <div class="flex mt-2 text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center mt-10 space-x-2">
+                        <button class="w-3 h-3 rounded-full bg-primary-200 testimonial-dot active" data-index="0"></button>
+                        <button class="w-3 h-3 rounded-full bg-primary-200 testimonial-dot" data-index="1"></button>
+                        <button class="w-3 h-3 rounded-full bg-primary-200 testimonial-dot" data-index="2"></button>
+                    </div>
+
+                    <button class="absolute top-1/2 -left-4 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-800 hover:text-primary-600 transition-colors testimonial-prev">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+
+                    <button class="absolute top-1/2 -right-4 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-800 hover:text-primary-600 transition-colors testimonial-next">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="stat-item">
+                        <div class="text-5xl font-extrabold text-primary-600 mb-2"><span class="counter" data-target="70">0</span>%</div>
+                        <div class="text-gray-600 font-medium">Time Saved</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="text-5xl font-extrabold text-primary-600 mb-2"><span class="counter" data-target="92">0</span>%</div>
+                        <div class="text-gray-600 font-medium">Teacher Satisfaction</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="text-5xl font-extrabold text-primary-600 mb-2"><span class="counter" data-target="85">0</span>%</div>
+                        <div class="text-gray-600 font-medium">Student Improvement</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="text-5xl font-extrabold text-primary-600 mb-2"><span class="counter" data-target="10000">0</span>+</div>
+                        <div class="text-gray-600 font-medium">Active Users</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto text-center relative">
+                    <!-- Decorative Elements -->
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mt-20 -mr-20"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -mb-10 -ml-10"></div>
+
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 relative z-10">Ready to Transform Your Teaching Experience?</h2>
+                    <p class="text-xl opacity-90 mb-10 relative z-10">Join thousands of educators who are saving time and improving student outcomes with EduAI Assistant.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+                        <a href="login.html" class="px-8 py-4 bg-white text-black rounded-lg font-medium hover:bg-gray-100 transition-colors flex items-center justify-center">
+                            Get Started Today <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="#contact" class="px-8 py-4 border-2 border-white text-white rounded-lg font-medium hover:bg-white hover:bg-opacity-10 transition-colors flex items-center justify-center">
+                            Contact Sales
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <svg class="w-10 h-10 mr-3" viewBox="0 0 40 40">
+                            <circle cx="20" cy="20" r="18" fill="url(#footer-logo-gradient)" />
+                            <path d="M15,15 L25,15 L25,25 L15,25 Z" fill="white" />
+                            <defs>
+                                <linearGradient id="footer-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6366F1" />
+                                    <stop offset="100%" stop-color="#F97316" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <h2 class="text-2xl font-bold">EduAI<span class="font-normal text-primary-400">Assistant</span></h2>
+                    </div>
+                    <p class="text-gray-400 mb-6">Transforming education with AI since 2003</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Product</h3>
+                    <ul class="space-y-4">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#demo" class="text-gray-400 hover:text-white transition-colors">Demo</a></li>
+                        <li><a href="#integrations" class="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Company</h3>
+                    <ul class="space-y-4">
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#careers" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#press" class="text-gray-400 hover:text-white transition-colors">Press</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest updates and educational insights.</p>
+                    <form class="space-y-4">
+                        <div class="flex">
+                            <label for="newsletter-email" class="sr-only">Email address</label>
+                            <input type="email" id="newsletter-email" name="email" placeholder="Your email address" required aria-required="true" class="flex-1 px-4 py-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <button type="submit" class="bg-accent-500 text-white px-4 py-3 rounded-r-lg hover:bg-accent-600 transition-all duration-300 hover:shadow-lg" aria-label="Subscribe to newsletter">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-start">
+                            <input type="checkbox" id="consent" class="mt-1 mr-3 h-4 w-4 text-accent-500 rounded focus:ring-accent-500" required aria-required="true">
+                            <label for="consent" class="text-gray-400 text-sm">I agree to receive educational content and updates</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-gray-500 mb-4 md:mb-0">&copy; 2023 EduAI Assistant. All rights reserved.</div>
+
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#privacy" class="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#terms" class="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#cookies" class="text-gray-500 hover:text-white transition-colors">Cookie Policy</a>
+                </div>
+
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-primary-600 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-primary-600 transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-primary-600 transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-primary-600 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="video-modal">
+        <div class="relative z-10 max-w-4xl w-full mx-4">
+            <div class="bg-black rounded-xl overflow-hidden">
+                <div class="aspect-w-16 aspect-h-9">
+                    <div id="video-container"></div>
+                </div>
+            </div>
+            <button class="absolute -top-12 right-0 text-white text-2xl video-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Wait for DOM content to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize preloader
+            initPreloader();
+
+            // Initialize custom cursor
+            initCustomCursor();
+
+            // Initialize mobile menu
+            initMobileMenu();
+
+            // Initialize navbar scroll effect
+            initNavbarScroll();
+
+            // Initialize hero animations
+            initHeroAnimations();
+
+            // Initialize testimonial slider
+            initTestimonialSlider();
+
+            // Initialize video modal
+            initVideoModal();
+
+            // Initialize counter animations
+            initCounters();
+
+            // Initialize feature card animations
+            initFeatureCards();
+
+            // Initialize process step animations
+            initProcessSteps();
+        });
+
+        // Preloader animation
+        function initPreloader() {
+            const preloader = document.querySelector('.preloader');
+            if (!preloader) return;
+
+            // Simulate loading time (remove in production and use actual load event)
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 1500);
+        }
+
+        // Custom cursor effect
+        function initCustomCursor() {
+            const cursor = document.querySelector('.custom-cursor');
+            if (!cursor || window.innerWidth < 768) return;
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            // Show cursor when mouse enters viewport
+            document.addEventListener('mouseenter', () => {
+                cursor.style.opacity = 1;
+            });
+
+            // Hide cursor when mouse leaves viewport
+            document.addEventListener('mouseleave', () => {
+                cursor.style.opacity = 0;
+            });
+
+            // Scale effect on clickable elements
+            const clickables = document.querySelectorAll('a, button, .feature-card, .video-play-btn');
+
+            clickables.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('cursor-expanded');
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('cursor-expanded');
+                });
+            });
+        }
+
+        // Enhanced mobile menu functionality with gestures
+        function initMobileMenu() {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const closeBtn = document.querySelector('.mobile-close-btn');
+            const backBtn = document.querySelector('.mobile-back-btn');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+            if (!menuBtn || !mobileMenu) return;
+
+            // Toggle menu function
+            function toggleMenu(show) {
+                if (show) {
+                    mobileMenu.classList.add('active');
+                    menuBtn.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Open menu
+            menuBtn.addEventListener('click', () => {
+                toggleMenu(true);
+            });
+
+            // Close menu with close button
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    toggleMenu(false);
+                });
+            }
+
+            // Back button functionality
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    window.history.back();
+                });
+            }
+
+            // Close menu when clicking links
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMenu(false);
+                });
+            });
+
+            // Gesture-based interactions
+            let touchStartY = 0;
+            let touchEndY = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            // Detect swipe down or right to close menu
+            mobileMenu.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            mobileMenu.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                touchEndX = e.changedTouches[0].screenX;
+
+                // Calculate swipe distance
+                const yDiff = touchEndY - touchStartY;
+                const xDiff = touchEndX - touchStartX;
+
+                // Swipe down to close (if at top of menu)
+                if (yDiff > 100 && Math.abs(xDiff) < 100 && mobileMenu.scrollTop < 10) {
+                    toggleMenu(false);
+                }
+
+                // Swipe right to close
+                if (xDiff > 100 && Math.abs(yDiff) < 100) {
+                    toggleMenu(false);
+                }
+            }, false);
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu.classList.contains('active') &&
+                    !mobileMenu.contains(e.target) &&
+                    !menuBtn.contains(e.target)) {
+                    toggleMenu(false);
+                }
+            });
+
+            // Close menu with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                    toggleMenu(false);
+                }
+            });
+        }
+
+        // Navbar scroll effect
+        function initNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'shadow-md', 'py-4');
+                } else {
+                    navbar.classList.remove('bg-white', 'shadow-md', 'py-4');
+                }
+            });
+        }
+
+        // Hero animations with Framer Motion and Lottie
+        function initHeroAnimations() {
+            const heroContent = document.getElementById('hero-content');
+            const heroImage = document.getElementById('hero-image');
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            const lottieContainer = document.getElementById('lottie-container');
+
+            if (!heroContent || !heroImage) return;
+
+            // Animate hero content
+            setTimeout(() => {
+                heroContent.style.opacity = '1';
+                heroContent.style.transform = 'translateY(0)';
+                heroContent.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            }, 500);
+
+            // Animate hero image
+            setTimeout(() => {
+                heroImage.style.opacity = '1';
+                heroImage.style.transform = 'translateX(0)';
+                heroImage.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            }, 800);
+
+            // Animate scroll indicator if it exists
+            if (scrollIndicator) {
+                setTimeout(() => {
+                    scrollIndicator.style.opacity = '1';
+                    scrollIndicator.style.transition = 'opacity 0.8s ease-out';
+                }, 1500);
+            }
+
+            // Initialize Lottie animation
+            if (lottieContainer && typeof lottie !== 'undefined') {
+                // AI Assistant mascot animation
+                const aiAnimation = lottie.loadAnimation({
+                    container: lottieContainer,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    // Use a placeholder URL - in production, replace with your actual Lottie JSON file
+                    path: 'https://assets5.lottiefiles.com/packages/lf20_xyadoh9h.json', // AI/Robot themed animation
+                    rendererSettings: {
+                        preserveAspectRatio: 'xMidYMid slice',
+                        clearCanvas: false,
+                        progressiveLoad: true,
+                        hideOnTransparent: true
+                    }
+                });
+
+                // Add interactivity to the Lottie animation
+                lottieContainer.addEventListener('mouseenter', () => {
+                    aiAnimation.setSpeed(1.5); // Speed up on hover
+                });
+
+                lottieContainer.addEventListener('mouseleave', () => {
+                    aiAnimation.setSpeed(1); // Return to normal speed
+                });
+
+                // Sync animation with dark mode
+                const darkModeObserver = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.attributeName === 'class' &&
+                            document.documentElement.classList.contains('dark')) {
+                            // You can adjust animation properties based on dark mode if needed
+                            lottieContainer.classList.add('dark-mode-animation');
+                        } else {
+                            lottieContainer.classList.remove('dark-mode-animation');
+                        }
+                    });
+                });
+
+                darkModeObserver.observe(document.documentElement, { attributes: true });
+            }
+        }
+
+        // Testimonial slider
+        function initTestimonialSlider() {
+            const track = document.getElementById('testimonials-track');
+            const dots = document.querySelectorAll('.testimonial-dot');
+            const prevBtn = document.querySelector('.testimonial-prev');
+            const nextBtn = document.querySelector('.testimonial-next');
+
+            if (!track || !dots.length) return;
+
+            let currentIndex = 0;
+
+            // Update slider position
+            function updateSlider() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // Update active dot
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active', 'bg-primary-600');
+                        dot.classList.remove('bg-primary-200');
+                    } else {
+                        dot.classList.remove('active', 'bg-primary-600');
+                        dot.classList.add('bg-primary-200');
+                    }
+                });
+            }
+
+            // Next slide
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % dots.length;
+                updateSlider();
+            }
+
+            // Previous slide
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + dots.length) % dots.length;
+                updateSlider();
+            }
+
+            // Event listeners
+            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+            // Dot navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateSlider();
+                });
+            });
+
+            // Auto-scroll
+            let interval = setInterval(nextSlide, 5000);
+
+            // Pause on hover
+            track.addEventListener('mouseenter', () => {
+                clearInterval(interval);
+            });
+
+            track.addEventListener('mouseleave', () => {
+                interval = setInterval(nextSlide, 5000);
+            });
+        }
+
+        // Video modal with gesture support
+        function initVideoModal() {
+            const videoBtn = document.querySelector('.video-play-btn');
+            const modal = document.querySelector('.video-modal');
+            const closeBtn = document.querySelector('.video-close-btn');
+            const videoContainer = document.getElementById('video-container');
+
+            if (!videoBtn || !modal) return;
+
+            // Toggle modal function
+            function toggleModal(show) {
+                if (show) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+
+                    // Add video iframe (replace with your actual video)
+                    videoContainer.innerHTML = `
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                    `;
+                } else {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                    setTimeout(() => {
+                        videoContainer.innerHTML = '';
+                    }, 300); // Wait for animation to complete
+                }
+            }
+
+            videoBtn.addEventListener('click', () => {
+                toggleModal(true);
+            });
+
+            closeBtn.addEventListener('click', () => {
+                toggleModal(false);
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    toggleModal(false);
+                }
+            });
+
+            // Gesture-based interactions for modal
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            // Detect swipe down to close modal
+            modal.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+            }, false);
+
+            modal.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+
+                // Calculate swipe distance
+                const yDiff = touchEndY - touchStartY;
+
+                // Swipe down to close
+                if (yDiff > 100) {
+                    toggleModal(false);
+                }
+            }, false);
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    toggleModal(false);
+                }
+            });
+        }
+
+        // Counter animations
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+
+            if (!counters.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        let count = 0;
+                        const speed = 2000 / target; // Adjust for animation duration
+
+                        const updateCount = () => {
+                            const increment = target / 100;
+                            if (count < target) {
+                                count += increment;
+                                counter.innerText = Math.ceil(count);
+                                setTimeout(updateCount, speed);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+
+                        updateCount();
+                        observer.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+        }
+
+        // Feature card animations
+        function initFeatureCards() {
+            const cards = document.querySelectorAll('.feature-card');
+            const floatingCards = document.querySelectorAll('.feature-floating-card');
+
+            if (!cards.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                observer.observe(card);
+            });
+
+            if (floatingCards.length) {
+                floatingCards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    observer.observe(card);
+                });
+            }
+        }
+
+        // Process step animations
+        function initProcessSteps() {
+            const steps = document.querySelectorAll('.process-step');
+
+            if (!steps.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            steps.forEach(step => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(30px)';
+                step.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                observer.observe(step);
+            });
+        }
+
+        // Accessibility enhancements
+        function initAccessibility() {
+            // Ensure all interactive elements are keyboard navigable
+            const focusableElements = document.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+
+            // Add focus styles for keyboard navigation
+            focusableElements.forEach(element => {
+                if (!element.classList.contains('focus:outline-none')) {
+                    element.classList.add('focus:outline-none', 'focus:ring-2', 'focus:ring-primary-500', 'focus:ring-offset-2');
+                }
+            });
+
+            // Add aria-labels to elements that need them
+            const socialLinks = document.querySelectorAll('.social-link');
+            socialLinks.forEach(link => {
+                const icon = link.querySelector('i');
+                if (icon && !link.hasAttribute('aria-label')) {
+                    const iconClass = Array.from(icon.classList).find(cls => cls.startsWith('fa-'));
+                    if (iconClass) {
+                        const socialName = iconClass.replace('fa-', '');
+                        link.setAttribute('aria-label', `Follow us on ${socialName}`);
+                    }
+                }
+            });
+
+            // Ensure video controls are accessible
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                if (!video.hasAttribute('controls') && !video.hasAttribute('aria-hidden')) {
+                    video.setAttribute('aria-hidden', 'true');
+                }
+            });
+
+            // Add skip to content link for screen readers
+            const header = document.querySelector('header');
+            if (header && !document.getElementById('skip-to-content')) {
+                const skipLink = document.createElement('a');
+                skipLink.id = 'skip-to-content';
+                skipLink.href = '#main-content';
+                skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-primary-600 focus:shadow-lg';
+                skipLink.textContent = 'Skip to main content';
+                document.body.insertBefore(skipLink, header);
+
+                // Add ID to main content
+                const main = document.querySelector('main');
+                if (main) {
+                    main.id = 'main-content';
+                }
+            }
+        }
+
+        // Initialize accessibility features
+        initAccessibility();
+
+        // Add lazy loading to all images
+        function addLazyLoadingToImages() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (!img.hasAttribute('loading')) {
+                    img.setAttribute('loading', 'lazy');
+                }
+
+                // Ensure all images have alt text for accessibility
+                if (!img.hasAttribute('alt') || img.getAttribute('alt') === '') {
+                    const imgSrc = img.getAttribute('src');
+                    const imgName = imgSrc ? imgSrc.split('/').pop().split('.')[0].replace(/-/g, ' ') : 'image';
+                    img.setAttribute('alt', `${imgName} illustration`);
+                }
+            });
+        }
+
+        // Enhanced scroll animations with Framer Motion
+        function initEnhancedScrollAnimations() {
+            // Select all elements to animate on scroll
+            const animateElements = document.querySelectorAll('.section-title, .feature-card, .testimonial-card, .process-step, .pricing-card, h2, h3');
+
+            // Create intersection observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add staggered animation based on element type
+                        const el = entry.target;
+
+                        // Add class for animation
+                        el.classList.add('animate-on-scroll');
+
+                        // Add specific animation type based on element
+                        if (el.classList.contains('section-title') || el.tagName === 'H2') {
+                            el.style.animation = 'fadeInUp 0.8s ease forwards';
+                        } else if (el.classList.contains('feature-card')) {
+                            el.style.animation = 'fadeInScale 0.6s ease forwards';
+                            el.style.animationDelay = '0.2s';
+                        } else if (el.classList.contains('testimonial-card')) {
+                            el.style.animation = 'fadeInRight 0.7s ease forwards';
+                            el.style.animationDelay = '0.1s';
+                        } else if (el.classList.contains('process-step')) {
+                            el.style.animation = 'fadeInStagger 0.8s ease forwards';
+                            // Add staggered delay based on index
+                            const index = Array.from(el.parentNode.children).indexOf(el);
+                            el.style.animationDelay = `${0.2 * index}s`;
+                        } else if (el.classList.contains('pricing-card')) {
+                            el.style.animation = 'fadeInUp 0.7s ease forwards';
+                            el.style.animationDelay = '0.3s';
+                        } else if (el.tagName === 'H3') {
+                            el.style.animation = 'fadeInLeft 0.6s ease forwards';
+                        }
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            // Observe all elements
+            animateElements.forEach(el => {
+                // Set initial state
+                el.style.opacity = '0';
+                observer.observe(el);
+            });
+        }
+
+        // Initialize enhanced parallax scrolling effect with GSAP
+        function initParallaxEffect() {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Apply to background sections
+            const parallaxSections = document.querySelectorAll('.parallax');
+            parallaxSections.forEach(section => {
+                gsap.to(section, {
+                    backgroundPosition: `50% ${-50}%`,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Apply to parallax elements
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.speed || 0.2;
+                const direction = parseFloat(speed) < 0 ? -1 : 1;
+                const intensity = Math.abs(parseFloat(speed)) * 100;
+
+                gsap.to(element, {
+                    y: direction * intensity,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: element.closest('section') || element.parentElement,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Smooth background color transitions on scroll
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                if (index === 0) return; // Skip first section
+
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 80%",
+                    onEnter: () => {
+                        gsap.to('body', {
+                            backgroundColor: getComputedStyle(section).backgroundColor,
+                            duration: 0.8,
+                            ease: "power2.inOut"
+                        });
+                    },
+                    onLeaveBack: () => {
+                        if (index > 1) {
+                            const prevSection = sections[index - 1];
+                            gsap.to('body', {
+                                backgroundColor: getComputedStyle(prevSection).backgroundColor,
+                                duration: 0.8,
+                                ease: "power2.inOut"
+                            });
+                        }
+                    }
+                });
+            });
+        }
+
+        // Initialize page transition effects
+        function initPageTransitions() {
+            const pageTransition = document.querySelector('.page-transition');
+            const links = document.querySelectorAll('a[href^="#"]');
+
+            // Add transition effect for internal links
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+
+                    // Only apply to internal section links
+                    if (href.startsWith('#') && href.length > 1) {
+                        e.preventDefault();
+
+                        // Show transition
+                        pageTransition.classList.add('active');
+
+                        // After transition completes, navigate to the section
+                        setTimeout(() => {
+                            window.location.hash = href;
+
+                            // Hide transition
+                            setTimeout(() => {
+                                pageTransition.classList.remove('active');
+                            }, 500);
+                        }, 700);
+                    }
+                });
+            });
+
+            // Add initial page load animation
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    pageTransition.classList.add('active');
+
+                    setTimeout(() => {
+                        pageTransition.classList.remove('active');
+                    }, 500);
+                }, 300);
+            });
+        }
+
+        // Add ripple effect to buttons
+        function initButtonRippleEffect() {
+            const buttons = document.querySelectorAll('a.px-8, button, .btn-ripple');
+
+            buttons.forEach(button => {
+                button.classList.add('btn-ripple');
+
+                button.addEventListener('click', function(e) {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+
+                    button.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        }
+
+        // Initialize dark mode
+        function initDarkMode() {
+            // Check for saved theme preference or use the system preference
+            const isDarkMode = localStorage.getItem('darkMode') === 'true' ||
+                              (!localStorage.getItem('darkMode') &&
+                               window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+            // Set initial theme
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+                document.body.classList.add('bg-dark-950');
+                document.body.classList.remove('bg-white');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.body.classList.remove('bg-dark-950');
+                document.body.classList.add('bg-white');
+            }
+
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+
+            function toggleDarkMode() {
+                document.documentElement.classList.toggle('dark');
+                const isDark = document.documentElement.classList.contains('dark');
+
+                // Update body background
+                if (isDark) {
+                    document.body.classList.add('bg-dark-950');
+                    document.body.classList.remove('bg-white');
+                } else {
+                    document.body.classList.remove('bg-dark-950');
+                    document.body.classList.add('bg-white');
+                }
+
+                // Update all section backgrounds
+                document.querySelectorAll('section').forEach(section => {
+                    if (isDark) {
+                        if (section.classList.contains('bg-white')) {
+                            section.classList.remove('bg-white');
+                            section.classList.add('bg-dark-800');
+                        } else if (section.classList.contains('bg-gray-50')) {
+                            section.classList.remove('bg-gray-50');
+                            section.classList.add('bg-dark-900');
+                        } else if (section.classList.contains('bg-gray-100')) {
+                            section.classList.remove('bg-gray-100');
+                            section.classList.add('bg-dark-800');
+                        }
+                    } else {
+                        if (section.classList.contains('bg-dark-800')) {
+                            section.classList.add('bg-white');
+                            section.classList.remove('bg-dark-800');
+                        } else if (section.classList.contains('bg-dark-900')) {
+                            section.classList.add('bg-gray-50');
+                            section.classList.remove('bg-dark-900');
+                        }
+                    }
+                });
+
+                localStorage.setItem('darkMode', isDark);
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleDarkMode);
+            }
+
+            if (mobileThemeToggle) {
+                mobileThemeToggle.addEventListener('click', toggleDarkMode);
+            }
+
+            // Listen for system preference changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('darkMode')) {
+                    if (e.matches) {
+                        document.documentElement.classList.add('dark');
+                        document.body.classList.add('bg-dark-950');
+                        document.body.classList.remove('bg-white');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        document.body.classList.remove('bg-dark-950');
+                        document.body.classList.add('bg-white');
+                    }
+                }
+            });
+
+            // Apply dark mode to sections on initial load
+            if (isDarkMode) {
+                document.querySelectorAll('section').forEach(section => {
+                    if (section.classList.contains('bg-white')) {
+                        section.classList.remove('bg-white');
+                        section.classList.add('bg-dark-800');
+                    } else if (section.classList.contains('bg-gray-50')) {
+                        section.classList.remove('bg-gray-50');
+                        section.classList.add('bg-dark-900');
+                    } else if (section.classList.contains('bg-gray-100')) {
+                        section.classList.remove('bg-gray-100');
+                        section.classList.add('bg-dark-800');
+                    }
+                });
+            }
+        }
+
+        // Initialize Three.js 3D elements
+        function init3DElements() {
+            const canvas = document.getElementById('3d-canvas');
+            if (!canvas) return;
+
+            // Create scene
+            const scene = new THREE.Scene();
+
+            // Create camera
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Create renderer
+            const renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setClearColor(0x000000, 0);
+            canvas.appendChild(renderer.domElement);
+
+            // Create geometry for floating particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 500;
+
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            // Create material
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                transparent: true,
+                color: 0x6366f1,
+                blending: THREE.AdditiveBlending
+            });
+
+            // Create mesh
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Create a sphere
+            const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+            const sphereMaterial = new THREE.MeshBasicMaterial({
+                color: 0x6366f1,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            scene.add(sphere);
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+
+                sphere.rotation.x += 0.001;
+                sphere.rotation.y += 0.001;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Update colors based on dark mode
+            function updateColors() {
+                const isDark = document.documentElement.classList.contains('dark');
+                particlesMaterial.color.set(isDark ? 0x8b5cf6 : 0x6366f1);
+                sphereMaterial.color.set(isDark ? 0x8b5cf6 : 0x6366f1);
+            }
+
+            // Listen for dark mode changes
+            const darkModeObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        updateColors();
+                    }
+                });
+            });
+
+            darkModeObserver.observe(document.documentElement, { attributes: true });
+
+            // Initial color setup
+            updateColors();
+        }
+
+        // Initialize AI Personalization
+        function initAIPersonalization() {
+            const panel = document.getElementById('personalization-panel');
+            const toggle = document.getElementById('personalization-toggle');
+            const applyBtn = document.getElementById('apply-personalization');
+            const educationLevel = document.getElementById('education-level');
+            const subjectFocus = document.getElementById('subject-focus');
+            const uiStyle = document.getElementById('ui-style');
+            const colorButtons = document.querySelectorAll('[data-color]');
+
+            if (!panel || !toggle || !applyBtn) return;
+
+            // Toggle panel visibility
+            toggle.addEventListener('click', () => {
+                panel.classList.toggle('translate-x-full');
+                panel.classList.toggle('translate-x-0');
+            });
+
+            // Load saved preferences
+            function loadPreferences() {
+                const preferences = JSON.parse(localStorage.getItem('aiPreferences') || '{}');
+
+                if (preferences.educationLevel && educationLevel) {
+                    educationLevel.value = preferences.educationLevel;
+                }
+
+                if (preferences.subjectFocus && subjectFocus) {
+                    subjectFocus.value = preferences.subjectFocus;
+                }
+
+                if (preferences.uiStyle && uiStyle) {
+                    uiStyle.value = preferences.uiStyle;
+                }
+
+                if (preferences.colorTheme) {
+                    applyColorTheme(preferences.colorTheme);
+                }
+
+                // Apply personalization based on saved preferences
+                applyPersonalization(preferences);
+            }
+
+            // Apply color theme
+            function applyColorTheme(color) {
+                // Remove active state from all buttons
+                colorButtons.forEach(btn => {
+                    btn.classList.remove('ring-2', 'ring-offset-2', 'ring-primary-500');
+                });
+
+                // Add active state to selected button
+                const activeButton = document.querySelector(`[data-color="${color}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('ring-2', 'ring-offset-2', 'ring-primary-500');
+                }
+
+                // Apply color theme to the site
+                let primaryColor, accentColor;
+
+                switch (color) {
+                    case 'blue':
+                        primaryColor = '#3b82f6';
+                        accentColor = '#06b6d4';
+                        break;
+                    case 'purple':
+                        primaryColor = '#8b5cf6';
+                        accentColor = '#d946ef';
+                        break;
+                    case 'green':
+                        primaryColor = '#10b981';
+                        accentColor = '#84cc16';
+                        break;
+                    case 'orange':
+                        primaryColor = '#f97316';
+                        accentColor = '#f59e0b';
+                        break;
+                    default:
+                        primaryColor = '#6366f1';
+                        accentColor = '#f97316';
+                }
+
+                document.documentElement.style.setProperty('--primary-color', primaryColor);
+                document.documentElement.style.setProperty('--accent-color', accentColor);
+            }
+
+            // Apply personalization based on preferences
+            function applyPersonalization(preferences) {
+                // Customize content based on education level
+                if (preferences.educationLevel) {
+                    const headings = {
+                        'k12': 'AI-Powered Grading for K-12 Classrooms',
+                        'higher-ed': 'Advanced AI Assessment for Higher Education',
+                        'corporate': 'Corporate Training & Assessment Solutions'
+                    };
+
+                    const descriptions = {
+                        'k12': 'Help students learn faster with personalized feedback and save teachers valuable time.',
+                        'higher-ed': 'Streamline grading for large university courses with sophisticated AI analysis.',
+                        'corporate': 'Enhance employee training with AI-powered assessment and skill development tracking.'
+                    };
+
+                    // Update heading and description if they exist
+                    const mainHeading = document.querySelector('h1 .gradient-text-future');
+                    const description = document.querySelector('#hero-content p');
+
+                    if (mainHeading && headings[preferences.educationLevel]) {
+                        mainHeading.textContent = headings[preferences.educationLevel];
+                    }
+
+                    if (description && descriptions[preferences.educationLevel]) {
+                        description.innerHTML = descriptions[preferences.educationLevel] +
+                            ' <span class="text-accent-600 dark:text-accent-400 font-bold">Try it today!</span>';
+                    }
+                }
+
+                // Customize UI style
+                if (preferences.uiStyle) {
+                    document.body.classList.remove('style-modern', 'style-futuristic', 'style-minimal');
+                    document.body.classList.add(`style-${preferences.uiStyle}`);
+
+                    // Apply specific styles based on UI preference
+                    switch (preferences.uiStyle) {
+                        case 'futuristic':
+                            document.querySelectorAll('.feature-card, .testimonial-card').forEach(card => {
+                                card.classList.add('glass-card');
+                                card.classList.remove('neumorph');
+                            });
+                            break;
+                        case 'minimal':
+                            document.querySelectorAll('.feature-card, .testimonial-card').forEach(card => {
+                                card.classList.remove('glass-card', 'neumorph');
+                            });
+                            break;
+                        case 'modern':
+                            document.querySelectorAll('.feature-card, .testimonial-card').forEach(card => {
+                                card.classList.add('neumorph');
+                                card.classList.remove('glass-card');
+                            });
+                            break;
+                    }
+                }
+            }
+
+            // Save preferences and apply personalization
+            applyBtn.addEventListener('click', () => {
+                // Get selected color
+                const activeColorButton = document.querySelector('[data-color].ring-2');
+                const colorTheme = activeColorButton ? activeColorButton.dataset.color : 'blue';
+
+                // Create preferences object
+                const preferences = {
+                    educationLevel: educationLevel ? educationLevel.value : 'k12',
+                    subjectFocus: subjectFocus ? subjectFocus.value : 'stem',
+                    uiStyle: uiStyle ? uiStyle.value : 'modern',
+                    colorTheme: colorTheme
+                };
+
+                // Save preferences
+                localStorage.setItem('aiPreferences', JSON.stringify(preferences));
+
+                // Apply personalization
+                applyPersonalization(preferences);
+
+                // Hide panel
+                panel.classList.add('translate-x-full');
+                panel.classList.remove('translate-x-0');
+
+                // Show confirmation message
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-500';
+                toast.textContent = 'Personalization applied!';
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 500);
+                }, 3000);
+            });
+
+            // Add click event to color buttons
+            colorButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const color = btn.dataset.color;
+                    applyColorTheme(color);
+                });
+            });
+
+            // Load saved preferences on init
+            loadPreferences();
+        }
+
+        // Run after DOM is fully loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            addLazyLoadingToImages();
+            initEnhancedScrollAnimations();
+            initParallaxEffect();
+            initPageTransitions();
+            initButtonRippleEffect();
+            initDarkMode();
+            init3DElements();
+            initAIPersonalization();
+        });
+    </script>
+</body>
+</html>

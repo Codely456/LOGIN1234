@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | EduAI Assistant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Futuristic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <!-- Lottie for lightweight animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        },
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81'
+                        },
+                        accent: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        futuristic: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'noise': "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmJTFzIWiitbnzR794USKBUaT0NTEsVjZqLaFVqJoPN9ODG70IPbfBHKK+/q/AWR0tJzYHRULOa4MP+W/HfGadZUbfw177G7j/OGbIs8TahLyynl4X4RinF793Oz+BU0saXtUHrVBFT/DnA3ctNPoGbs4hRIjTok8i+algT1lTHi4SxFvONKNrgQFAq2/gFnWMXgwffgYMJpiKYkmW3tTg3ZQ9Jq+f8XN+A5eeUKHWvJWJ2sgJ1Sop+wwhqFVijqWaJhwtD8MNlSBeWNNWTa5Z5kPZw5+LbVT99wqTdx29lMUH4OIG/D86ruKEauBjvH5xy6um/Sfj7ei6UUVk4AIl3MyD4MSSTOFgSwsH/QJWaQ5as7ZcmgBZkzjjU1UrQ74ci1gWBCSGHtuV1H2mhSnO3Wp/3fEV5a+4wz//6qy8JxjZsmxxy5+4w9CDNJY09T072iKG0EnOS0arEYgXqYnXcYHwjTtUNAcMelOd4xpkoqiTYICWFq0JSiPfPDQdnt+4/wuqcXY47QILbgAAAABJRU5ErkJggg==')"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom styles -->
+    <style>
+        /* CSS Variables for dynamic theming */
+        :root {
+            --primary-color: #6366f1;
+            --accent-color: #f97316;
+        }
+
+        /* Custom CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Dark mode styles */
+        .dark {
+            color-scheme: dark;
+        }
+
+        .dark body {
+            background-color: #0a0f1d; /* Darker background for better contrast */
+            color: #f8fafc; /* Brighter text for better readability */
+        }
+
+        /* Improved dark mode contrast */
+        .dark .bg-white {
+            background-color: #1e293b !important; /* Darker card backgrounds */
+        }
+
+        .dark .bg-gray-50 {
+            background-color: #111827 !important; /* Darker section backgrounds */
+        }
+
+        .dark .bg-gray-100 {
+            background-color: #1f2937 !important;
+        }
+
+        .dark .border-gray-200 {
+            border-color: #334155 !important; /* Darker borders */
+        }
+
+        .dark .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2) !important; /* Enhanced shadows */
+        }
+
+        /* Ensure text is always visible regardless of background */
+        .text-white {
+            color: #ffffff !important;
+        }
+
+        .dark .text-gray-800,
+        .dark .text-gray-900,
+        .dark .text-black {
+            color: #f1f5f9 !important;
+        }
+
+        .dark .text-gray-600,
+        .dark .text-gray-700 {
+            color: #cbd5e1 !important;
+        }
+
+        /* Futuristic Gradients */
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
+            --tw-gradient-from: #4f46e5;
+            --tw-gradient-to: #f97316;
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .gradient-text-future {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6, #d946ef);
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            /* Neon glow effect */
+            text-shadow:
+                0 0 5px rgba(59, 130, 246, 0.3),
+                0 0 10px rgba(139, 92, 246, 0.2),
+                0 0 15px rgba(217, 70, 239, 0.1);
+            filter: brightness(1.1);
+            letter-spacing: 0.5px;
+        }
+
+        .gradient-bg-future {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #d946ef);
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            position: relative;
+        }
+
+        /* Add a subtle overlay to improve text contrast */
+        .gradient-bg-future::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .gradient-border {
+            position: relative;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #d946ef);
+            z-index: -1;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            border-radius: 0.6rem;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .noise-bg {
+            position: relative;
+        }
+
+        .noise-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,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');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Password strength meter */
+        .password-strength-meter {
+            height: 4px;
+            width: 100%;
+            background-color: #e2e8f0;
+            margin-top: 6px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-meter-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .strength-weak {
+            background-color: #ef4444;
+            width: 25%;
+        }
+
+        .strength-fair {
+            background-color: #f97316;
+            width: 50%;
+        }
+
+        .strength-good {
+            background-color: #3b82f6;
+            width: 75%;
+        }
+
+        .strength-strong {
+            background-color: #22c55e;
+            width: 100%;
+        }
+
+        /* Multi-step form styles */
+        .step-container {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .step-container.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #6366f1, #f97316);
+            transition: width 0.5s ease;
+        }
+
+        /* Selection cards */
+        .selection-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .selection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .selection-card.selected {
+            border-color: #6366f1;
+            background-color: #eef2ff;
+        }
+
+        .dark .selection-card.selected {
+            border-color: #6366f1;
+            background-color: #1e293b;
+        }
+
+        /* Form focus states for accessibility */
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .dark .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-dark-900 noise-bg">
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-dark-900 transition-opacity duration-500">
+        <div class="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-dark-900 shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-bold font-display gradient-text">EduAI</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+                    <a href="#features" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Features</a>
+                    <a href="#pricing" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Pricing</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+                    <a href="login.html" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Login</a>
+                    <a href="signup.html" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors">Sign Up</a>
+                </div>
+
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton" class="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-dark-900 shadow-lg absolute inset-x-0 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0">
+            <div class="px-4 pt-2 pb-6 space-y-4">
+                <a href="index.html" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+                <a href="#features" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Features</a>
+                <a href="#pricing" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Pricing</a>
+                <a href="#contact" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+                <a href="login.html" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Login</a>
+                <a href="signup.html" class="block text-center bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl mx-auto">
+                <!-- Signup Card -->
+                <div class="bg-white dark:bg-dark-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300">
+                    <!-- Card Header -->
+                    <div class="p-6 sm:p-8 bg-gradient-to-r from-primary-600 to-accent-500 text-white">
+                        <h1 class="text-2xl sm:text-3xl font-bold font-display mb-2">Create Your Account</h1>
+                        <p class="opacity-90">Join EduAI Assistant and transform your teaching experience</p>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="px-6 sm:px-8 pt-6">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressBar" style="width: 33%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-6">
+                            <span>Account Type</span>
+                            <span>Personal Info</span>
+                            <span>Role Details</span>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Step Form -->
+                    <form id="signupForm" class="px-6 sm:px-8 pb-8">
+                        <!-- Step 1: Account Type Selection -->
+                        <div class="step-container active" id="step1">
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Select Account Type</h2>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">Choose the type of account you want to create</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <!-- Teacher Card -->
+                                <div class="selection-card p-4 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 shadow-sm" data-value="teacher">
+                                    <div class="flex items-center mb-3">
+                                        <div class="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                            <i class="fas fa-chalkboard-teacher"></i>
+                                        </div>
+                                        <h3 class="ml-3 font-semibold text-gray-900 dark:text-white">Teacher</h3>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Create, grade, and manage assignments with AI assistance</p>
+                                </div>
+                                
+                                <!-- Student Card -->
+                                <div class="selection-card p-4 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 shadow-sm" data-value="student">
+                                    <div class="flex items-center mb-3">
+                                        <div class="w-10 h-10 rounded-full bg-accent-100 dark:bg-accent-900 flex items-center justify-center text-accent-600 dark:text-accent-400">
+                                            <i class="fas fa-user-graduate"></i>
+                                        </div>
+                                        <h3 class="ml-3 font-semibold text-gray-900 dark:text-white">Student</h3>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Submit assignments and receive detailed AI-powered feedback</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button type="button" id="step1Next" class="bg-primary-600 hover:bg-primary-700 text-white py-2 px-6 rounded-md transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Personal Information -->
+                        <div class="step-container" id="step2">
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Personal Information</h2>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">Tell us a bit about yourself</p>
+                            
+                            <div class="space-y-4 mb-6">
+                                <!-- Full Name -->
+                                <div>
+                                    <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+                                    <input type="text" id="fullName" name="fullName" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors" required>
+                                </div>
+                                
+                                <!-- Email -->
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors" required>
+                                </div>
+                                
+                                <!-- Password with Strength Meter -->
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                                    <input type="password" id="password" name="password" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors" required>
+                                    <div class="password-strength-meter">
+                                        <div class="password-strength-meter-fill" id="passwordStrength"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" id="passwordFeedback">Password strength: Enter a password</p>
+                                </div>
+                                
+                                <!-- Confirm Password -->
+                                <div>
+                                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors" required>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <button type="button" id="step2Back" class="border border-gray-300 dark:border-dark-600 hover:bg-gray-50 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300 py-2 px-6 rounded-md transition-colors">
+                                    Back
+                                </button>
+                                <button type="button" id="step2Next" class="bg-primary-600 hover:bg-primary-700 text-white py-2 px-6 rounded-md transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Role-Specific Details -->
+                        <div class="step-container" id="step3">
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Role Details</h2>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">Tell us more about your educational background</p>
+                            
+                            <!-- Teacher-specific fields (shown/hidden based on selection) -->
+                            <div id="teacherFields" class="space-y-4 mb-6 hidden">
+                                <!-- School/Institution -->
+                                <div>
+                                    <label for="school" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">School/Institution</label>
+                                    <input type="text" id="school" name="school" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors">
+                                </div>
+                                
+                                <!-- Subject Taught -->
+                                <div>
+                                    <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject Taught</label>
+                                    <select id="subject" name="subject" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors">
+                                        <option value="">Select a subject</option>
+                                        <option value="math">Mathematics</option>
+                                        <option value="science">Science</option>
+                                        <option value="english">English</option>
+                                        <option value="history">History</option>
+                                        <option value="computer">Computer Science</option>
+                                        <option value="art">Art</option>
+                                        <option value="music">Music</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Years of Experience -->
+                                <div>
+                                    <label for="experience" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Years of Teaching Experience</label>
+                                    <input type="number" id="experience" name="experience" min="0" max="50" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors">
+                                </div>
+                            </div>
+                            
+                            <!-- Student-specific fields (shown/hidden based on selection) -->
+                            <div id="studentFields" class="space-y-4 mb-6 hidden">
+                                <!-- School/Institution -->
+                                <div>
+                                    <label for="studentSchool" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">School/Institution</label>
+                                    <input type="text" id="studentSchool" name="studentSchool" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors">
+                                </div>
+                                
+                                <!-- Grade Level -->
+                                <div>
+                                    <label for="gradeLevel" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Grade Level</label>
+                                    <select id="gradeLevel" name="gradeLevel" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors">
+                                        <option value="">Select grade level</option>
+                                        <option value="elementary">Elementary School</option>
+                                        <option value="middle">Middle School</option>
+                                        <option value="high">High School</option>
+                                        <option value="college">College/University</option>
+                                        <option value="graduate">Graduate School</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Major/Focus Area -->
+                                <div>
+                                    <label for="major" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Major/Focus Area</label>
+                                    <input type="text" id="major" name="major" class="form-input w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-md bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:border-primary-500 transition-colors">
+                                </div>
+                            </div>
+                            
+                            <!-- Terms of Service Agreement -->
+                            <div class="mb-6">
+                                <div class="flex items-start">
+                                    <div class="flex items-center h-5">
+                                        <input id="terms" name="terms" type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" required>
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <label for="terms" class="font-medium text-gray-700 dark:text-gray-300">I agree to the <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Terms of Service</a> and <a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Privacy Policy</a></label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between">
+                                <button type="button" id="step3Back" class="border border-gray-300 dark:border-dark-600 hover:bg-gray-50 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300 py-2 px-6 rounded-md transition-colors">
+                                    Back
+                                </button>
+                                <button type="submit" id="submitButton" class="bg-primary-600 hover:bg-primary-700 text-white py-2 px-6 rounded-md transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50">
+                                    Create Account
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Social Signup Options -->
+                    <div class="px-6 sm:px-8 pb-4">
+                        <div class="relative my-4">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300 dark:border-dark-600"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white dark:bg-dark-800 text-gray-500 dark:text-gray-400">Or sign up with</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <button type="button" id="googleSignup" class="flex justify-center items-center py-2 px-4 border border-gray-300 dark:border-dark-600 rounded-md shadow-sm bg-white dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors">
+                                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                                </svg>
+                                Google
+                            </button>
+                            <button type="button" id="microsoftSignup" class="flex justify-center items-center py-2 px-4 border border-gray-300 dark:border-dark-600 rounded-md shadow-sm bg-white dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors">
+                                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21.5,11.5h-8v-3h8V11.5z M21.5,15.5h-8v-3h8V15.5z M13.5,19.5h-3v-11h3V19.5z M8.5,19.5h-6v-3h6V19.5z M8.5,15.5h-6v-3h6V15.5z M8.5,11.5h-6v-3h6V11.5z M8.5,7.5h-6v-3h6V7.5z M21.5,7.5h-8v-3h8V7.5z"/>
+                                </svg>
+                                Microsoft
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="px-6 sm:px-8 pb-6 text-center">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Already have an account?
+                            <a href="login.html" class="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 transition-colors">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-dark-700">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and Description -->
+                <div class="col-span-1 md:col-span-1">
+                    <a href="#" class="text-2xl font-bold font-display gradient-text">EduAI</a>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Transforming education with AI-powered grading and feedback.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Product</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Features</a></li>
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Company</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a></li>
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider">Legal</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Privacy</a></li>
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Terms</a></li>
+                        <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-dark-700">
+                <p class="text-sm text-gray-600 dark:text-gray-400 text-center">© 2023 EduAI Assistant. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Configuration -->
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbTVfF8MrMsF2eeZYG4WQnI9sh3NmmEME",
+            authDomain: "eduai-assistant.firebaseapp.com",
+            projectId: "eduai-assistant",
+            storageBucket: "eduai-assistant.firebasestorage.app",
+            messagingSenderId: "234970951094",
+            appId: "1:234970951094:web:529f578aaab09f9a95e517",
+            measurementId: "G-BB2B8L2GMP"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <!-- Main JavaScript -->
+    <script>
+        // DOM Elements
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const preloader = document.getElementById('preloader');
+        const signupForm = document.getElementById('signupForm');
+        
+        // Step Navigation Elements
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const step1Next = document.getElementById('step1Next');
+        const step2Back = document.getElementById('step2Back');
+        const step2Next = document.getElementById('step2Next');
+        const step3Back = document.getElementById('step3Back');
+        const progressBar = document.getElementById('progressBar');
+        
+        // Form Fields
+        const selectionCards = document.querySelectorAll('.selection-card');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const passwordFeedback = document.getElementById('passwordFeedback');
+        const teacherFields = document.getElementById('teacherFields');
+        const studentFields = document.getElementById('studentFields');
+        
+        // Form Data
+        let accountType = '';
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled' || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches && 
+             localStorage.getItem('darkMode') !== 'disabled')) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Dark Mode Toggle
+        darkModeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', 'disabled');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        mobileMenuButton.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('translate-y-0');
+            
+            if (isOpen) {
+                mobileMenu.classList.remove('translate-y-0', 'opacity-100');
+                mobileMenu.classList.add('-translate-y-full', 'opacity-0');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+            } else {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileMenu.classList.remove('-translate-y-full', 'opacity-0');
+                    mobileMenu.classList.add('translate-y-0', 'opacity-100');
+                }, 10);
+            }
+        });
+
+        // Selection Cards
+        selectionCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove selected class from all cards
+                selectionCards.forEach(c => c.classList.remove('selected'));
+                
+                // Add selected class to clicked card
+                card.classList.add('selected');
+                
+                // Store account type
+                accountType = card.dataset.value;
+                
+                // Enable next button
+                step1Next.disabled = false;
+            });
+        });
+
+        // Password Strength Meter
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            let strength = 0;
+            let feedback = '';
+            
+            // Check password length
+            if (password.length > 0) {
+                strength += 1;
+            }
+            if (password.length >= 8) {
+                strength += 1;
+            }
+            
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                strength += 1;
+            }
+            
+            // Check for lowercase letters
+            if (/[a-z]/.test(password)) {
+                strength += 1;
+            }
+            
+            // Check for numbers
+            if (/[0-9]/.test(password)) {
+                strength += 1;
+            }
+            
+            // Check for special characters
+            if (/[^A-Za-z0-9]/.test(password)) {
+                strength += 1;
+            }
+            
+            // Update strength meter
+            passwordStrength.className = 'password-strength-meter-fill';
+            
+            if (password.length === 0) {
+                passwordStrength.style.width = '0';
+                feedback = 'Password strength: Enter a password';
+            } else if (strength < 3) {
+                passwordStrength.classList.add('strength-weak');
+                feedback = 'Password strength: Weak';
+            } else if (strength < 5) {
+                passwordStrength.classList.add('strength-fair');
+                feedback = 'Password strength: Fair';
+            } else if (strength < 6) {
+                passwordStrength.classList.add('strength-good');
+                feedback = 'Password strength: Good';
+            } else {
+                passwordStrength.classList.add('strength-strong');
+                feedback = 'Password strength: Strong';
+            }
+            
+            passwordFeedback.textContent = feedback;
+        });
+
+        // Step Navigation
+        step1Next.addEventListener('click', () => {
+            step1.classList.remove('active');
+            step2.classList.add('active');
+            progressBar.style.width = '66%';
+        });
+
+        step2Back.addEventListener('click', () => {
+            step2.classList.remove('active');
+            step1.classList.add('active');
+            progressBar.style.width = '33%';
+        });
+
+        step2Next.addEventListener('click', () => {
+            // Validate step 2 fields
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            if (!fullName || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Show appropriate fields based on account type
+            if (accountType === 'teacher') {
+                teacherFields.classList.remove('hidden');
+                studentFields.classList.add('hidden');
+            } else {
+                teacherFields.classList.add('hidden');
+                studentFields.classList.remove('hidden');
+            }
+            
+            step2.classList.remove('active');
+            step3.classList.add('active');
+            progressBar.style.width = '100%';
+        });
+
+        step3Back.addEventListener('click', () => {
+            step3.classList.remove('active');
+            step2.classList.add('active');
+            progressBar.style.width = '66%';
+        });
+
+        // Form Submission
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get form data
+            const formData = {
+                accountType: accountType,
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                password: passwordInput.value
+            };
+
+            // Add role-specific data
+            if (accountType === 'teacher') {
+                formData.school = document.getElementById('school').value;
+                formData.subject = document.getElementById('subject').value;
+                formData.experience = document.getElementById('experience').value;
+            } else {
+                formData.school = document.getElementById('studentSchool').value;
+                formData.gradeLevel = document.getElementById('gradeLevel').value;
+                formData.major = document.getElementById('major').value;
+            }
+
+            try {
+                // Create user with Firebase Authentication
+                const userCredential = await firebase.auth().createUserWithEmailAndPassword(
+                    formData.email,
+                    formData.password
+                );
+
+                // Signed in
+                const user = userCredential.user;
+
+                // Update user profile with display name
+                await user.updateProfile({
+                    displayName: formData.fullName
+                });
+
+                // Save additional user data to Firestore
+                await db.collection('users').doc(user.uid).set({
+                    accountType: formData.accountType,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    school: formData.school,
+                    subject: formData.subject || null,
+                    experience: formData.experience || null,
+                    gradeLevel: formData.gradeLevel || null,
+                    major: formData.major || null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                // Show error message
+                alert(`Error: ${errorMessage}`);
+            }
+        });
+
+        // Social Sign Up Handlers
+        const handleSocialSignUp = async (providerName) => {
+            try {
+                let provider;
+
+                // Create the appropriate provider
+                if (providerName === 'google') {
+                    provider = new firebase.auth.GoogleAuthProvider();
+                    // Add scopes for additional Google information if needed
+                    provider.addScope('profile');
+                    provider.addScope('email');
+                } else if (providerName === 'microsoft') {
+                    provider = new firebase.auth.OAuthProvider('microsoft.com');
+                    // Add scopes for additional Microsoft information if needed
+                    provider.addScope('user.read');
+                    provider.setCustomParameters({
+                        prompt: 'consent'
+                    });
+                }
+
+                // Sign in with popup
+                const result = await firebase.auth().signInWithPopup(provider);
+                const user = result.user;
+                const credential = result.credential;
+
+                // Get additional user info
+                const isNewUser = result.additionalUserInfo.isNewUser;
+                const profile = result.additionalUserInfo.profile;
+
+                // If this is a new user, save their information to Firestore
+                if (isNewUser) {
+                    // Extract user information from the profile
+                    let userData = {
+                        accountType: 'student', // Default account type
+                        fullName: user.displayName || '',
+                        email: user.email || '',
+                        photoURL: user.photoURL || '',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                        authProvider: providerName
+                    };
+
+                    // Save user data to Firestore
+                    await db.collection('users').doc(user.uid).set(userData);
+
+                    // Redirect to profile completion page
+                    window.location.href = 'dashboard.html?newUser=true';
+                } else {
+                    // Update last login time
+                    await db.collection('users').doc(user.uid).update({
+                        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (error) {
+                console.error("Social sign-up error:", error);
+                alert(`Error signing up with ${providerName}: ${error.message}`);
+            }
+        };
+
+        // Google Sign Up
+        document.getElementById('googleSignup').addEventListener('click', () => {
+            handleSocialSignUp('google');
+        });
+
+        // Microsoft Sign Up
+        document.getElementById('microsoftSignup').addEventListener('click', () => {
+            handleSocialSignUp('microsoft');
+        });
+
+        // Hide preloader when page is loaded
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 500);
+        });
+
+        // Accessibility - keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                mobileMenuButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
